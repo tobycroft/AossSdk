@@ -14,7 +14,7 @@ class Aoss
     private string $mode;
 
     /**
-     * @构建传入token
+     * @discription 构建传入token
      * @param $token
      * @param $mode
      * @param $remote_url
@@ -30,13 +30,13 @@ class Aoss
             $this->send_url .= $this->send_path . "/up_complete";
             $this->send_url .= $this->send_token . $this->token;
         }
-
     }
 
     /*
-     * send("文件地址","文件类型","文件名称")
+     *
      */
     /**
+     * @send("文件地址","文件类型","文件名称")
      * @param $real_path
      * @param $mime_type
      * @param $file_name
@@ -58,6 +58,13 @@ class Aoss
         return $response;
     }
 
+
+    /**
+     * @param $real_path
+     * @param $mime_type
+     * @param $file_name
+     * @return AossSimpleRet|AossCompleteRet
+     */
     public function send($real_path, $mime_type, $file_name): AossSimpleRet|AossCompleteRet
     {
         return match ($this->mode) {
@@ -66,24 +73,47 @@ class Aoss
         };
     }
 
+    /**
+     * @param $md5
+     * @return AossCompleteRet
+     */
     public function md5($md5): AossCompleteRet
     {
         return self::check_file_complete($this->remote_url . $this->send_path . "/md5" . $this->send_token . $this->token, $md5);
     }
 
 
+    /**
+     * @param $send_url
+     * @param $real_path
+     * @param $mime_type
+     * @param $file_name
+     * @return AossSimpleRet
+     */
     public static function send_file_url($send_url, $real_path, $mime_type, $file_name): AossSimpleRet
     {
         $response = self::curl_send_file($real_path, $mime_type, $file_name, $send_url);
         return new AossSimpleRet($response);
     }
 
+    /**
+     * @param $send_url
+     * @param $real_path
+     * @param $mime_type
+     * @param $file_name
+     * @return AossCompleteRet
+     */
     public static function send_file_complete($send_url, $real_path, $mime_type, $file_name): AossCompleteRet
     {
         $response = self::curl_send_file($real_path, $mime_type, $file_name, $send_url);
         return new AossCompleteRet($response);
     }
 
+    /**
+     * @param $send_url
+     * @param $md5
+     * @return AossCompleteRet
+     */
     public static function check_file_complete($send_url, $md5): AossCompleteRet
     {
         $postData = [
