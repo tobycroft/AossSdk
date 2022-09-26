@@ -17,6 +17,5 @@
     "ext-curl": "*"
   },
   "require-dev": {
-    "ext-curl": "*"
   }
 }
