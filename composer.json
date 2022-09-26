@@ -1,0 +1,16 @@
+{
+  "name": "tobycroft/aoss-sdk",
+  "description": "AOSS is an OSS upload,chunk,Excel2Json platform",
+  "autoload": {
+    "psr-4": {
+      "Tobycroft\\AossSdk\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "火线兔",
+      "email": "silverhawk@foxmail.com"
+    }
+  ],
+  "require": {}
+}
