@@ -1,6 +1,7 @@
 {
   "name": "tobycroft/aoss-sdk",
   "description": "AOSS is an private platform with OSS upload,chunk upload,ExcelToJson",
+  "type": "composer-plugin",
   "autoload": {
     "psr-4": {
       "Tobycroft\\AossSdk\\": "src/"
@@ -12,6 +13,7 @@
       "email": "silverhawk@foxmail.com"
     }
   ],
+  "minimum-stability": "stable",
   "require": {
     "php": ">=7.4",
     "ext-curl": "*"
