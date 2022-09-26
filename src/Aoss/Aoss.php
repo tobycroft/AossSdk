@@ -25,6 +25,9 @@ class Aoss
 
     }
 
+    /*
+     * send("文件地址","文件类型","文件名称")
+     */
     public function send($real_path, $mime_type, $file_name)
     {
         return match ($this->mode) {
