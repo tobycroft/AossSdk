@@ -1,6 +1,6 @@
 <?php
 
-namespace Tobycroft\AossSdk\Aoss;
+namespace Tobycroft\AossSdk;
 
 use CURLFile;
 
