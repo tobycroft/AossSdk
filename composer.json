@@ -13,6 +13,10 @@
     }
   ],
   "require": {
+    "php": ">=8.0",
+    "ext-curl": "*"
+  },
+  "require-dev": {
     "ext-curl": "*"
   }
 }
