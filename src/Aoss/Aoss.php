@@ -14,7 +14,7 @@ class Aoss
     private string $mode;
 
     /**
-     * @discription 构建传入token
+     * @discription 构建传入token,token可以发送邮件到aoss@tuuz.cc获取
      * @param $token
      * @param $mode
      * @param $remote_url
