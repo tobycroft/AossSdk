@@ -13,6 +13,12 @@ class Aoss
     private string $token;
     private string $mode;
 
+    /**
+     * @构建传入token
+     * @param $token
+     * @param $mode
+     * @param $remote_url
+     */
     public function __construct($token, $mode = "complete", $remote_url = "")
     {
         $this->send_url = $remote_url;
