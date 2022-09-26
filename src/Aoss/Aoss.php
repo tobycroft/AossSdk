@@ -121,8 +121,8 @@ class AossCompleteRet
     public mixed $md5 = "";
     public mixed $sha1 = "";
     public mixed $src = "";
-    public mixed $url = "";
-    public mixed $surl = "";
+    public mixed $url = "";//有http-url
+    public mixed $surl = "";//无http-url
     public int $width = 0;
     public int $height = 0;
     public int $duration = 0;
