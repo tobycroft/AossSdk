@@ -1,6 +1,6 @@
 {
   "name": "tobycroft/aoss-sdk",
-  "description": "AOSS is an OSS upload,chunk,Excel2Json platform",
+  "description": "AOSS is an private platform with OSS upload,chunk upload,ExcelToJson",
   "autoload": {
     "psr-4": {
       "Tobycroft\\AossSdk\\": "src/"
