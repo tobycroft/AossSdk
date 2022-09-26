@@ -12,5 +12,7 @@
       "email": "silverhawk@foxmail.com"
     }
   ],
-  "require": {}
+  "require": {
+    "ext-curl": "*"
+  }
 }
