@@ -18,9 +18,9 @@ class Image extends Aoss
         }
     }
 
-    public function send_excel($send_url, $real_path, $mime_type, $file_name): ExcelCompleteRet
+    public function send_image($send_url, $real_path, $mime_type, $file_name): ImageRet
     {
         $response = self::curl_send_file($real_path, $mime_type, $file_name, $send_url);
-        return new ExcelCompleteRet($response);
+        return new ImageRet($response);
     }
 }
