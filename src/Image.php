@@ -2,8 +2,7 @@
 
 namespace Tobycroft\AossSdk;
 
-
-class Excel extends Aoss
+class Image extends Aoss
 {
     protected string $send_path = "/v1/excel/index";
 
