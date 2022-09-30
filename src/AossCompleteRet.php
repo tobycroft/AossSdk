@@ -52,3 +52,4 @@ class AossCompleteRet
         return $this;
     }
 }
+
