@@ -32,9 +32,6 @@ class Aoss
         }
     }
 
-    /*
-     *
-     */
     /**
      * @send("文件地址","文件类型","文件名称")
      * @param $real_path
