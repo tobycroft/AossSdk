@@ -6,7 +6,6 @@ class ImageRet
 {
     public mixed $error = null;
     public mixed $data = [];
-    public mixed $column = [];
 
     public function __construct($response)
     {
@@ -17,9 +16,6 @@ class ImageRet
         }
         if ($json["code"] == "0") {
             $this->data = $json["data"];
-            foreach ($this->data as $key => $value) {
-                $this->column[] = $key;
-            }
         } else {
             $this->error = $json["data"];
         }
