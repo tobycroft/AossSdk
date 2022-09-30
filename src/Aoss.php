@@ -6,12 +6,12 @@ use CURLFile;
 
 class Aoss
 {
-    private string $remote_url = "http://upload.tuuz.cc:81";
-    private string $send_url;
-    private string $send_path = "/v1/file/index";
+    protected string $remote_url = "http://upload.tuuz.cc:81";
+    protected string $send_url;
+    protected string $send_path = "/v1/file/index";
     protected string $send_token = "?token=";
-    private string $token;
-    private string $mode;
+    protected string $token;
+    protected string $mode;
 
     /**
      * @discription 构建传入token,token可以发送邮件到aoss@tuuz.cc获取
