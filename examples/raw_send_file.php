@@ -15,6 +15,13 @@ use Tobycroft\AossSdk\Aoss;
 
 
 $Aoss = new Aoss("your_token", "complete");
+
+$md5_data = $Aoss->md5("your_file_md5_here");
+if (empty($md5_data->error)) {
+    if ($file_exists = Model::get(['md5' => "your_file_md5_here"])) {
+        return "already_uploaded";
+    }
+}
 $send_ret = $Aoss->send("your_realpath_to_the_file", "mime_of_the_file", "fileName_like_xxx.jpg");
 if (isset($send_ret->error)) {
     echo $send_ret->error;
