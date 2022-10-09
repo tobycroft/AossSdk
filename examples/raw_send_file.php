@@ -20,3 +20,5 @@ if (isset($send_ret->error)) {
     echo $send_ret->error;
     exit();
 }
+return successMessage($send_ret->url, $send_ret->name, $send_ret->md5);
+
