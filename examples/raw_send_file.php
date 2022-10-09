@@ -20,5 +20,5 @@ if (isset($send_ret->error)) {
     echo $send_ret->error;
     exit();
 }
-print_r($send_ret->url, $send_ret->name, $send_ret->md5);
+var_dump($send_ret->url, $send_ret->name, $send_ret->md5);
 
