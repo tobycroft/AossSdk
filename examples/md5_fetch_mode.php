@@ -25,7 +25,7 @@ if (empty($md5_data->error)) {
         'driver' => "remote",
     ];
     // 写入数据库
-    if (AttachmentModel::create($file_info)) {
+    if (Model::create($file_info)) {
         $data = [
             'code' => 1,
             'info' => '同步成功',
