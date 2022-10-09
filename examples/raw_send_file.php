@@ -19,5 +19,4 @@ $send_ret = $Aoss->send("your_realpath_to_the_file", "mime_of_the_file", "fileNa
 if (isset($send_ret->error)) {
     echo $send_ret->error;
     exit();
-    return $this->uploadError($from, $send_ret->error, $callback);
 }
