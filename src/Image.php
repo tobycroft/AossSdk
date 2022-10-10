@@ -79,4 +79,11 @@ class Image extends Aoss
         return imagecreatefromstring($response);
     }
 
+    public function create_qr_b64($data): string
+    {
+        return self::raw_post($this->send_url, [
+            "data" => $data
+        ]);
+    }
+
 }
