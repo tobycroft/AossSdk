@@ -2,6 +2,8 @@
 
 namespace Tobycroft\AossSdk;
 
+use GdImage;
+
 class Image extends Aoss
 {
     protected string $send_path = "/v1/image/create";
@@ -18,9 +20,63 @@ class Image extends Aoss
         }
     }
 
-    public function send_image($send_url, $real_path, $mime_type, $file_name): ImageRet
+    public static function raw_post($send_url, $postData)
     {
-        $response = self::curl_send_file($real_path, $mime_type, $file_name, $send_url);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $send_url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
+        $response = curl_exec($ch);
+        curl_close($ch);
+        return $response;
+    }
+
+    public function create_canvas($width, $height, $background = "ffffff", ImageCreateImg|ImageCreateText ...$data): GdImage|false
+    {
+        $response = self::raw_post($this->send_url, [
+            "width" => $width,
+            "height" => $height,
+            "background" => $background,
+            "data" => json_encode($data, 320)
+        ]);
+        return imagecreatefromstring($response);
+    }
+
+    public function create_imgurl($width, $height, $background = "ffffff", ImageCreateImg|ImageCreateText ...$data): ImageRet
+    {
+        $response = self::raw_post($this->send_url, [
+            "width" => $width,
+            "height" => $height,
+            "background" => $background,
+            "data" => json_encode($data, 320)
+        ]);
         return new ImageRet($response);
     }
+
+    public function create_barcode($data): GdImage|false
+    {
+        $response = self::raw_post($this->send_url, [
+            "data" => $data
+        ]);
+        return imagecreatefromstring($response);
+    }
+
+    public function create_qr($data): GdImage|false
+    {
+        $response = self::raw_post($this->send_url, [
+            "data" => $data
+        ]);
+        return imagecreatefromstring($response);
+    }
+
+    public function create_qr_with_logo($data, $img_url): GdImage|false
+    {
+        $response = self::raw_post($this->send_url, [
+            "data" => $data,
+            "url" => $img_url
+        ]);
+        return imagecreatefromstring($response);
+    }
+
 }
