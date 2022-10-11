@@ -3,13 +3,12 @@
 namespace Tobycroft\AossSdk;
 
 use GdImage;
-use SplEnum;
 
 class Wechat extends Aoss
 {
     protected string $mode;
 
-    public function __construct($token, Func $func, Mode $mode)
+    public function __construct($token, WechatFunc $func, WechatMode $mode)
     {
         $this->token = $token;
 
@@ -87,12 +86,13 @@ class Wechat extends Aoss
 
 }
 
-class Func extends SplEnum
+class WechatFunc
 {
     const GetWxacodeUnlimit = "/v1/wechat/wxa/";
+
 }
 
-class Mode extends SplEnum
+class WechatMode
 {
     const GetWxacodeUnlimit_file = "unlimited_file";
     const GetWxacodeUnlimit_raw = "unlimited_raw";
