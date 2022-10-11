@@ -7,19 +7,16 @@ use SplEnum;
 
 class Wechat extends Aoss
 {
-    protected string $send_path = "/v1/wechat/";
-
     protected string $mode;
 
-    public function __construct($token, Mode $mode)
+    public function __construct($token, Func $func, Mode $mode)
     {
         $this->token = $token;
 
-        if (empty($remote_url)) {
-            $this->send_url = $this->remote_url;
-            $this->send_url .= $this->send_path . "/canvas";
-            $this->send_url .= $this->send_token . $this->token;
-        }
+        $this->send_path = $func . $mode;
+
+        $this->send_url = $this->remote_url;
+        $this->send_url .= $this->send_token . $this->token;
     }
 
     public function create_canvas($width, $height, $background = "ffffff", ImageCreateImg|ImageCreateText ...$data): GdImage|false
@@ -90,14 +87,14 @@ class Wechat extends Aoss
 
 }
 
-class Mode extends SplEnum
+class Func extends SplEnum
 {
-    const GetWxacodeUnlimit_file = "wxa/unlimited_file";
-    const GetWxacodeUnlimit_raw = "wxa/unlimited_raw";
-    const GetWxacodeUnlimit_base64 = "wxa/unlimited_base64";
+    const GetWxacodeUnlimit = "/v1/wechat/wxa/";
 }
 
-class ModeData extends SplEnum
+class Mode extends SplEnum
 {
-    const File = "file";
+    const GetWxacodeUnlimit_file = "unlimited_file";
+    const GetWxacodeUnlimit_raw = "unlimited_raw";
+    const GetWxacodeUnlimit_base64 = "unlimited_base64";
 }
