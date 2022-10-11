@@ -88,11 +88,28 @@ class Wechat extends Aoss
 
 class WechatFunc
 {
-    const GetWxacodeUnlimit = "/v1/wechat/wxa/";
+    protected $select;
+
+    public function __construct(self $select)
+    {
+        $this->select = $select;
+    }
+
+    public function __toString(): string
+    {
+        return $this->select;
+    }
+
+    public const GetWxacodeUnlimit = "/v1/wechat/wxa/";
 }
 
 class WechatMode
 {
+    public function __toString(): string
+    {
+        return self::class;
+    }
+
     const GetWxacodeUnlimit_file = "unlimited_file";
     const GetWxacodeUnlimit_raw = "unlimited_raw";
     const GetWxacodeUnlimit_base64 = "unlimited_base64";
