@@ -89,7 +89,6 @@ class Wechat extends Aoss
 class WechatFunc
 {
     const GetWxacodeUnlimit = "/v1/wechat/wxa/";
-
 }
 
 class WechatMode
