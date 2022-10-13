@@ -87,4 +87,3 @@ class Wechat extends Aoss
     }
 
 }
-
