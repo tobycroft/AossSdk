@@ -37,12 +37,12 @@ class ExcelCompleteRet
         return empty($this->error);
     }
 
-    public function getExcelJson(): ExcelCompleteRet
+    public function getExcelJson(): array
     {
         return $this->data;
     }
 
-    public function getExcelColumn(): ExcelCompleteRet
+    public function getExcelColumn(): array
     {
         return $this->column;
     }
