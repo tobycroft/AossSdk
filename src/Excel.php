@@ -19,9 +19,9 @@ class Excel extends Aoss
         }
     }
 
-    public function send_excel($send_url, $real_path, $mime_type, $file_name): ExcelCompleteRet
+    public function send_excel($real_path, $mime_type, $file_name): ExcelCompleteRet
     {
-        $response = self::curl_send_file($real_path, $mime_type, $file_name, $send_url);
+        $response = self::curl_send_file($real_path, $mime_type, $file_name, $this->send_url);
         return new ExcelCompleteRet($response);
     }
 }
