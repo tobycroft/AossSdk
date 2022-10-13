@@ -21,4 +21,28 @@ class ImageRet
         }
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getError(): mixed
+    {
+        return $this->error;
+    }
+
+    public function isSuccess(): bool
+    {
+        return empty($this->error);
+    }
+
+    public function file(): string
+    {
+        return $this->data;
+    }
+
+    public function base64(): string
+    {
+        return $this->data;
+    }
+
 }
