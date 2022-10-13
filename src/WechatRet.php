@@ -19,7 +19,6 @@ class WechatRet
         } else {
             $this->error = $json["data"];
         }
-        return $this;
     }
 
     public function file(): string
