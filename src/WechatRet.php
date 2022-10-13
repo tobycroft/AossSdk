@@ -4,10 +4,10 @@ namespace Tobycroft\AossSdk;
 
 class WechatRet
 {
-    public mixed $error = null;
-    public mixed $data = [];
+    protected string $error;
+    protected mixed $data;
 
-    public function __construct($response)
+    public function __construct(string $response)
     {
         $json = json_decode($response, true);
         if (empty($json) || !isset($json["code"])) {
@@ -22,8 +22,26 @@ class WechatRet
         return $this;
     }
 
-    public function file($response): string
+    public function file(): string
     {
         return $this->data;
+    }
+
+    public function base64(): string
+    {
+        return $this->data;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getError(): string
+    {
+        return $this->error;
+    }
+
+    public function isSuccess(): bool
+    {
+        return empty($this->error);
     }
 }
