@@ -7,9 +7,8 @@ class Excel extends Aoss
 {
     protected string $send_path = "/v1/excel/index";
 
-    public function __construct($token, $remote_url = "")
+    public function __construct($token)
     {
-        $this->send_url = $remote_url;
         $this->token = $token;
 
         if (empty($remote_url)) {
