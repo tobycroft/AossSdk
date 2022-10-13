@@ -13,7 +13,6 @@ class ExcelCompleteRet
         $json = json_decode($response, true);
         if (empty($json) || !isset($json["code"])) {
             $this->error = $response;
-            return $this;
         }
         if ($json["code"] == "0") {
             $this->data = $json["data"];
@@ -23,6 +22,28 @@ class ExcelCompleteRet
         } else {
             $this->error = $json["data"];
         }
-        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getError(): mixed
+    {
+        return $this->error;
+    }
+
+    public function isSuccess(): bool
+    {
+        return empty($this->error);
+    }
+
+    public function getExcelJson(): ExcelCompleteRet
+    {
+        return $this->data;
+    }
+
+    public function getExcelColumn(): ExcelCompleteRet
+    {
+        return $this->column;
     }
 }
