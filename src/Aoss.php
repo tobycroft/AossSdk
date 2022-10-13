@@ -32,6 +32,20 @@ class Aoss
         }
     }
 
+
+    public static function raw_post($send_url, $postData): bool|string
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $send_url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
+        $response = curl_exec($ch);
+        curl_close($ch);
+        return $response;
+    }
+
+
     /**
      * @send("文件地址","文件类型","文件名称")
      * @param $real_path
