@@ -14,7 +14,7 @@ class Excel extends Aoss
 
         if (empty($remote_url)) {
             $this->send_url = $this->remote_url;
-            $this->send_url .= $this->send_path . "/index";
+            $this->send_url .= $this->send_path . "/dp";
             $this->send_url .= $this->send_token . $this->token;
         }
     }
