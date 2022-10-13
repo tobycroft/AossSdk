@@ -6,9 +6,11 @@ class WechatRet
 {
     protected string $error;
     protected mixed $data;
+    public mixed $response;
 
     public function __construct(string $response)
     {
+        $this->response = $response;
         $json = json_decode($response, true);
         if (empty($json) || !isset($json["code"])) {
             $this->error = $response;

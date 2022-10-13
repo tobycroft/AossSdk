@@ -19,43 +19,41 @@ class Wechat extends Aoss
         $this->send_url .= $this->send_token . $this->token;
     }
 
-    public function create_wxa_unlimited_file(string $data, $page): string
+    public function create_wxa_unlimited_file(string $data, $page): string|bool
     {
         $ret = new WechatRet(self::raw_post($this->send_url, [
             "data" => $data,
             "page" => $page,
         ]));
+        if (!$ret->isSuccess()) {
+            return false;
+        }
         return $ret->file();
     }
 
-    public function create_wxa_unlimited_base64(string $data, $page): string
+    public function create_wxa_unlimited_base64(string $data, $page): string|bool
     {
         $ret = new WechatRet(self::raw_post($this->send_url, [
             "data" => $data,
             "page" => $page,
         ]));
+        if (!$ret->isSuccess()) {
+            return false;
+        }
         return $ret->base64();
     }
 
-    public function create_wxa_unlimited_raw(string $data, $page): GdImage|false
+    public function create_wxa_unlimited_raw(string $data, $page): GdImage|bool
     {
         $ret = new WechatRet(self::raw_post($this->send_url, [
             "data" => $data,
             "page" => $page,
         ]));
-        return imagecreatefromstring($response);
+        if (!$ret->isSuccess()) {
+            return false;
+        }
+        return imagecreatefromstring($ret->response);
     }
 
-
-    public function create_canvas($width, $height, $background = "ffffff", ImageCreateImg|ImageCreateText ...$data): GdImage|false
-    {
-        $response = self::raw_post($this->send_url, [
-            "width" => $width,
-            "height" => $height,
-            "background" => $background,
-            "data" => json_encode($data, 320)
-        ]);
-        return imagecreatefromstring($response);
-    }
 
 }
