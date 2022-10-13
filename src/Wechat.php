@@ -3,12 +3,14 @@
 namespace Tobycroft\AossSdk;
 
 use GdImage;
+use Tobycroft\AossSdk\ImageRequestbuilder\ImageCreateImg;
+use Tobycroft\AossSdk\ImageRequestbuilder\ImageCreateText;
 
 class Wechat extends Aoss
 {
     protected string $mode;
 
-    public function __construct($token, $wechatFunc, $wechatMode, WechatFunc $func, WechatMode $mode)
+    public function __construct($token, $wechatFunc, $wechatMode, WechatRequestBuilder\WechatFunc $func, WechatRequestBuilder\WechatMode $mode)
     {
         $this->token = $token;
 
@@ -86,25 +88,3 @@ class Wechat extends Aoss
 
 }
 
-class WechatFunc
-{
-
-    public function __construct(self $any)
-    {
-        return $any;
-    }
-
-    public const GetWxacodeUnlimit = "/v1/wechat/wxa/";
-}
-
-class WechatMode
-{
-    public function __construct(self $any)
-    {
-        return $this->$any;
-    }
-
-    public string $GetWxacodeUnlimit_file = "unlimited_file";
-    public string $GetWxacodeUnlimit_raw = "unlimited_raw";
-    public string $GetWxacodeUnlimit_base64 = "unlimited_base64";
-}

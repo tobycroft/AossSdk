@@ -3,6 +3,8 @@
 namespace Tobycroft\AossSdk;
 
 use GdImage;
+use Tobycroft\AossSdk\ImageRequestbuilder\ImageCreateImg;
+use Tobycroft\AossSdk\ImageRequestbuilder\ImageCreateText;
 
 class Image extends Aoss
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tobycroft\AossSdk;
+namespace Tobycroft\AossSdk\ImageRequestbuilder;
 
 class ImageCreateText
 {
