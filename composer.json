@@ -1,6 +1,6 @@
 {
   "name": "tobycroft/aoss-sdk",
-  "description": "AOSS is a private platform support OSS upload,,ExcelToJson,Image canvas,Gen Wechat code,Gen qrcode,Gen barcode",
+  "description": "AOSS is a private platform support OSS upload,ExcelToJson,Image canvas,Gen Wechat code,Gen qrcode,Gen barcode",
   "autoload": {
     "psr-4": {
       "Tobycroft\\AossSdk\\": "src/"
