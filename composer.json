@@ -18,7 +18,6 @@
     "php": ">=8.0",
     "ext-curl": "*",
     "ext-gd": "*",
-    "ext-spltype": "*"
   },
   "require-dev": {
   }
