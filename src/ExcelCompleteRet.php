@@ -4,12 +4,14 @@ namespace Tobycroft\AossSdk;
 
 class ExcelCompleteRet
 {
+    public string $response;
     public mixed $error = null;
     public mixed $data = [];
     public mixed $column = [];
 
     public function __construct($response)
     {
+        $this->response = $response;
         $json = json_decode($response, true);
         if (empty($json) || !isset($json["code"])) {
             $this->error = $response;
