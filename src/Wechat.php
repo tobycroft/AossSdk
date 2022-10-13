@@ -8,11 +8,11 @@ class Wechat extends Aoss
 {
     protected string $mode;
 
-    public function __construct($token, WechatFunc $func, WechatMode $mode)
+    public function __construct($token, $wechatFunc, $wechatMode, WechatFunc $func, WechatMode $mode)
     {
         $this->token = $token;
 
-        $this->send_path = $func . $mode;
+        $this->send_path = $func->$wechatFunc . $mode->$wechatMode;
 
         $this->send_url = $this->remote_url;
         $this->send_url .= $this->send_token . $this->token;
@@ -88,16 +88,10 @@ class Wechat extends Aoss
 
 class WechatFunc
 {
-    protected $select;
 
-    public function __construct(self $select)
+    public function __construct(self $any)
     {
-        $this->select = $select;
-    }
-
-    public function __toString(): string
-    {
-        return $this->select;
+        return $any;
     }
 
     public const GetWxacodeUnlimit = "/v1/wechat/wxa/";
@@ -105,12 +99,12 @@ class WechatFunc
 
 class WechatMode
 {
-    public function __toString(): string
+    public function __construct(self $any)
     {
-        return self::class;
+        return $this->$any;
     }
 
-    const GetWxacodeUnlimit_file = "unlimited_file";
-    const GetWxacodeUnlimit_raw = "unlimited_raw";
-    const GetWxacodeUnlimit_base64 = "unlimited_base64";
+    public string $GetWxacodeUnlimit_file = "unlimited_file";
+    public string $GetWxacodeUnlimit_raw = "unlimited_raw";
+    public string $GetWxacodeUnlimit_base64 = "unlimited_base64";
 }
