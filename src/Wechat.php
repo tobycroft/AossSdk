@@ -17,16 +17,15 @@ class Wechat extends Aoss
         $this->send_path = $func->$wechatFunc . $mode->$wechatMode;
 
         $this->send_url = $this->remote_url;
+        $this->send_url .= $this->send_path;
         $this->send_url .= $this->send_token . $this->token;
     }
 
-    public function create_canvas($width, $height, $background = "ffffff", ImageCreateImg|ImageCreateText ...$data): GdImage|false
+    public function create_wxa_unlimited_file(string $data, $page): GdImage|false
     {
         $response = self::raw_post($this->send_url, [
-            "width" => $width,
-            "height" => $height,
-            "background" => $background,
-            "data" => json_encode($data, 320)
+            "data" => $data,
+            "page" => $page,
         ]);
         return imagecreatefromstring($response);
     }
