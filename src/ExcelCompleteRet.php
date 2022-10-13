@@ -19,7 +19,7 @@ class ExcelCompleteRet
             if ($json["code"] == "0") {
                 $this->data = $json["data"];
                 foreach ($this->data as $key => $value) {
-                    $this->column[] = $key;
+                    $this->column[] = $value;
                 }
             } else {
                 $this->error = $json["data"];
