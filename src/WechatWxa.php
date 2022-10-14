@@ -33,6 +33,19 @@ class WechatWxa extends Aoss
         return $ret;
     }
 
+    public function generatescheme(string $code): WechatWxaSchemeRet
+    {
+        $this->buildUrl(WechatFunc::Wxa, WechatMode::$GenerateScheme);
+        $ret = new WechatWxaSchemeRet(
+            self::raw_post($this->send_url,
+                [
+                    "code" => $code,
+                ]
+            )
+        );
+        return $ret;
+    }
+
     public function create_wxa_unlimited_file(string $data, $page): string|bool
     {
         $this->buildUrl(WechatFunc::Wxa, WechatMode::$GetWxacodeUnlimit_file);
