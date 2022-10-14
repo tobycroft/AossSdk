@@ -1,19 +1,70 @@
-# AossSdk
+# AossSdk(asoo-sdk)
 
-# What is AOSS?
+Aoss是一个开源综合IO平台，可自行建设，本SDK的作用在于快速接入AOSS主站平台减少过多的开发接入
 
-Aoss is a OSSBased platform support upload to
+# Aoss功能
 
-- UploadMode
-    - LocalMode
-    - OSSMode
-    - LocalMode+OSSMode
-- DownloadMode
-    - ImageServer
-    - RemoteOss-Address
+Aoss是一个
 
-# Why to use Aoss?
+- 文件上传
+    - 本地留存模式
+        - 返回图片站对应的地址
+    - OSS留存模式
+        - 返回OSS对应的文件地址
+    - 本地+OSS双留存模式
+        - 可返回本地地址
+        - 可返回OSS地址
+- 图片功能
+    - 制图功能（canvas）
+        - 返回文件本体数据流
+        - 返回文件base64
+        - 返回图片下载地址
+            - OSS
+            - 图片站
+    - 条形码（barcode）
+        - 返回图片本体数据流
+    - 二维码
+        - 返回图片本体数据流
+        - 返回图片base64
+        - 返回图片下载地址
+            - OSS
+            - 图片站
+- Excel解析器
+    - Excel上传解析
+- 微信功能
+    - 登录解析（sns）
+        - jscode2session
+    - 小程序码（wxa）
+        - 生成无限小程序码unlimited
+            - 302图片跳转
+            - 图片base64返回
+            - 图片下载地址返回
+                - OSS
+                - 图片站
+    - 用户信息（wxa）
+        - 获取用户手机号
+            - getuserphonenumber
 
-# How to atten this?
+# 为什么选择Aoss？
+
+程序开发就像造车，如果你不想重复造轮子，php为你准备了composer，
+然而，composer包那么多，很多时候得一个一个试过去，而且面临各种不确定的情况，费时费力，
+就像你车子已经造好了，你再去找轮子一样，轮子适不适合你肉眼看不出来就得装上去试一下，不行再拆，真的很麻烦。
+
+使用了AOSS后，这些问题就迎刃而解了！有一个专门的平台来解决这些问题，而且你无需过分担心IO问题，
+因为接接口部分大多数时候不会直接给你返回数据流，这样程序占用就不会很严重，对性能有一定保障。
+
+另外本平台要求所有加入的人员需要自备OSS或远程图片服务器，本服务器仅对部分成员开放图片服务器权限
+
+当然，上面那些话只是让你听起来好像觉得很方便一样，实际上，我们并不是一个开放注册的平台，还请大家理解
+
+# 如何使用
+
+我们并没有开放注册，所以如需使用，请：
 
 Send request mail to aoss@tuuz.cc
+
+# Aoss程序支持
+
+- PHP（本版）
+- Golang（请查看本账号下的AossGoSDK）
