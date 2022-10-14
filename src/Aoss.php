@@ -32,14 +32,6 @@ class Aoss
         }
     }
 
-    public function buildUrl($wechatFunc, $wechatMode)
-    {
-        $this->send_path = $wechatFunc . $wechatMode;
-
-        $this->send_url = $this->remote_url;
-        $this->send_url .= $this->send_path;
-        $this->send_url .= $this->send_token . $this->token;
-    }
 
     public static function raw_post($send_url, $postData): bool|string
     {
