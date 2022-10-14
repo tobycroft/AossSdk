@@ -19,7 +19,7 @@ class WechatWxaUnlimitedRet
         if ($json["code"] == "0") {
             $this->data = $json["data"];
         } else {
-            $this->error = $json["data"];
+            $this->error = $json["echo"];
         }
     }
 

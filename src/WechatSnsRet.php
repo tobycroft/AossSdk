@@ -26,7 +26,7 @@ class WechatSnsRet
             $this->session_key = $this->data["session_key"];
             $this->openid = $this->data["openid"];
         } else {
-            $this->error = $json["data"];
+            $this->error = $json["echo"];
         }
     }
 

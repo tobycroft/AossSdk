@@ -29,7 +29,7 @@ class WechatWxaPhoneRet
             $this->countryCode = $this->data["countryCode"];
             $this->watermark = $this->data["watermark"];
         } else {
-            $this->error = $json["data"];
+            $this->error = $json["echo"];
         }
     }
 
