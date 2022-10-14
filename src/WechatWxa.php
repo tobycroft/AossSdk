@@ -4,7 +4,7 @@ namespace Tobycroft\AossSdk;
 
 use GdImage;
 
-class Wechat extends Aoss
+class WechatWxa extends Aoss
 {
     protected string $mode;
 
@@ -54,11 +54,5 @@ class Wechat extends Aoss
         }
         return imagecreatefromstring($ret->response);
     }
-
-    public function jscode2Session(string $js_code, $grant_type)
-    {
-        $ret = new WechatWxaRet($response)
-    }
-
 
 }
