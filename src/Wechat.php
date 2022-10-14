@@ -21,7 +21,7 @@ class Wechat extends Aoss
 
     public function create_wxa_unlimited_file(string $data, $page): string|bool
     {
-        $ret = new WechatRet(self::raw_post($this->send_url, [
+        $ret = new WechatWxaRet(self::raw_post($this->send_url, [
             "data" => $data,
             "page" => $page,
         ]));
@@ -33,7 +33,7 @@ class Wechat extends Aoss
 
     public function create_wxa_unlimited_base64(string $data, $page): string|bool
     {
-        $ret = new WechatRet(self::raw_post($this->send_url, [
+        $ret = new WechatWxaRet(self::raw_post($this->send_url, [
             "data" => $data,
             "page" => $page,
         ]));
@@ -45,7 +45,7 @@ class Wechat extends Aoss
 
     public function create_wxa_unlimited_raw(string $data, $page): GdImage|bool
     {
-        $ret = new WechatRet(self::raw_post($this->send_url, [
+        $ret = new WechatWxaRet(self::raw_post($this->send_url, [
             "data" => $data,
             "page" => $page,
         ]));
@@ -53,6 +53,11 @@ class Wechat extends Aoss
             return false;
         }
         return imagecreatefromstring($ret->response);
+    }
+
+    public function jscode2Session(string $js_code, $grant_type)
+    {
+        $ret = new WechatWxaRet($response)
     }
 
 

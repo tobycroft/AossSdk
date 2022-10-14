@@ -2,7 +2,7 @@
 
 namespace Tobycroft\AossSdk;
 
-class WechatRet
+class WechatWxaRet
 {
     protected string $error;
     protected mixed $data;
