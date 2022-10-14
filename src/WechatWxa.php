@@ -3,16 +3,21 @@
 namespace Tobycroft\AossSdk;
 
 use GdImage;
+use Tobycroft\AossSdk\WechatRequestBuilder\WechatFunc;
+use Tobycroft\AossSdk\WechatRequestBuilder\WechatMode;
 
 class WechatWxa extends Aoss
 {
     protected string $mode;
 
-    public function __construct($token, $wechatFunc, $wechatMode, WechatRequestBuilder\WechatFunc $func, WechatRequestBuilder\WechatMode $mode)
+    public function __construct($token)
     {
         $this->token = $token;
+    }
 
-        $this->send_path = $func->$wechatFunc . $mode->$wechatMode;
+    public function buildUrl($wechatFunc, $wechatMode)
+    {
+        $this->send_path = $wechatFunc . $wechatMode;
 
         $this->send_url = $this->remote_url;
         $this->send_url .= $this->send_path;
@@ -21,6 +26,7 @@ class WechatWxa extends Aoss
 
     public function getuserphonenumber(string $code): WechatWxaPhoneRet
     {
+        $this->buildUrl(WechatFunc::Wxa, WechatMode::$GetUserPhoneNumber);
         $ret = new WechatWxaPhoneRet(
             self::raw_post($this->send_url,
                 [
@@ -33,6 +39,7 @@ class WechatWxa extends Aoss
 
     public function create_wxa_unlimited_file(string $data, $page): string|bool
     {
+        $this->buildUrl(WechatFunc::Wxa, WechatMode::$GetWxacodeUnlimit_file);
         $ret = new WechatWxaUnlimitedRet(self::raw_post($this->send_url, [
             "data" => $data,
             "page" => $page,
@@ -45,6 +52,7 @@ class WechatWxa extends Aoss
 
     public function create_wxa_unlimited_base64(string $data, $page): string|bool
     {
+        $this->buildUrl(WechatFunc::Wxa, WechatMode::$GetWxacodeUnlimit_base64);
         $ret = new WechatWxaUnlimitedRet(self::raw_post($this->send_url, [
             "data" => $data,
             "page" => $page,
@@ -57,6 +65,7 @@ class WechatWxa extends Aoss
 
     public function create_wxa_unlimited_raw(string $data, $page): GdImage|bool
     {
+        $this->buildUrl(WechatFunc::Wxa, WechatMode::$GetWxacodeUnlimit_raw);
         $ret = new WechatWxaUnlimitedRet(self::raw_post($this->send_url, [
             "data" => $data,
             "page" => $page,

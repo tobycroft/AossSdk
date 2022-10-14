@@ -7,6 +7,11 @@ class WechatWxaPhoneRet
     public mixed $response;
     protected string $error;
     protected mixed $data;
+    public mixed $phoneNumber;
+    public mixed $purePhoneNumber;
+    public mixed $countryCode;
+    public mixed $watermark;
+
 
     public function __construct(string $response)
     {
@@ -18,6 +23,7 @@ class WechatWxaPhoneRet
         }
         if ($json["code"] == "0") {
             $this->data = $json["data"];
+            $this->phoneNumber = $this->data["phoneNumber"];
         } else {
             $this->error = $json["data"];
         }
