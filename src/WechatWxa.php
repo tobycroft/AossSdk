@@ -33,7 +33,7 @@ class WechatWxa extends Aoss
         return $ret;
     }
 
-    public function generatescheme(string $path, $query, $is_expire, $expire_interval): WechatWxaSchemeRet
+    public function generatescheme(string $path, $query, bool $is_expire, int $expire_interval): WechatWxaSchemeRet
     {
         $this->buildUrl(WechatFunc::Wxa, WechatMode::$GenerateScheme);
         $ret = new WechatWxaSchemeRet(
