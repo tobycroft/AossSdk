@@ -10,19 +10,6 @@ class WechatWxa extends Aoss
 {
     protected string $mode;
 
-    public function __construct($token)
-    {
-        $this->token = $token;
-    }
-
-    public function buildUrl($wechatFunc, $wechatMode)
-    {
-        $this->send_path = $wechatFunc . $wechatMode;
-
-        $this->send_url = $this->remote_url;
-        $this->send_url .= $this->send_path;
-        $this->send_url .= $this->send_token . $this->token;
-    }
 
     public function getuserphonenumber(string $code): WechatWxaPhoneRet
     {
