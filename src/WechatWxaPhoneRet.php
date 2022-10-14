@@ -32,16 +32,6 @@ class WechatWxaPhoneRet
         }
     }
 
-    public function file(): string
-    {
-        return $this->data;
-    }
-
-    public function base64(): string
-    {
-        return $this->data;
-    }
-
     /**
      * @return mixed
      */
