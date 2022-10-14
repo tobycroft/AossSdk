@@ -14,7 +14,7 @@ use Tobycroft\AossSdk\Aoss;
 
 $Aoss = new Aoss("your_token", "complete");
 $md5_data = $Aoss->md5("md5 sign here");
-if (empty($md5_data->error)) {
+if ($md5_data->isSuccess()) {
     $file_info = [
         'uid' => session('user_auth.uid'),
         'name' => $md5_data->name,

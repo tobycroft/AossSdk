@@ -6,7 +6,7 @@ class AossCompleteRet
 {
     public string $response;
     protected mixed $error = null;
-    protected mixed $data = [];
+    public mixed $data = [];
     public mixed $name = "";
     public mixed $path = "";
     public mixed $mime = "";
