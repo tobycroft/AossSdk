@@ -19,9 +19,21 @@ class WechatWxa extends Aoss
         $this->send_url .= $this->send_token . $this->token;
     }
 
+    public function getuserphonenumber(string $code): WechatWxaPhoneRet
+    {
+        $ret = new WechatWxaPhoneRet(
+            self::raw_post($this->send_url,
+                [
+                    "code" => $code,
+                ]
+            )
+        );
+        return $ret;
+    }
+
     public function create_wxa_unlimited_file(string $data, $page): string|bool
     {
-        $ret = new WechatWxaRet(self::raw_post($this->send_url, [
+        $ret = new WechatWxaUnlimitedRet(self::raw_post($this->send_url, [
             "data" => $data,
             "page" => $page,
         ]));
@@ -33,7 +45,7 @@ class WechatWxa extends Aoss
 
     public function create_wxa_unlimited_base64(string $data, $page): string|bool
     {
-        $ret = new WechatWxaRet(self::raw_post($this->send_url, [
+        $ret = new WechatWxaUnlimitedRet(self::raw_post($this->send_url, [
             "data" => $data,
             "page" => $page,
         ]));
@@ -45,7 +57,7 @@ class WechatWxa extends Aoss
 
     public function create_wxa_unlimited_raw(string $data, $page): GdImage|bool
     {
-        $ret = new WechatWxaRet(self::raw_post($this->send_url, [
+        $ret = new WechatWxaUnlimitedRet(self::raw_post($this->send_url, [
             "data" => $data,
             "page" => $page,
         ]));
