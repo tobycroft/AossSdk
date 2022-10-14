@@ -5,12 +5,13 @@ namespace Tobycroft\AossSdk;
 class WechatSnsRet
 {
     public mixed $response;
-    public mixed $unionid;
-    public mixed $session_key;
-    public mixed $openid;
     protected string $error;
     protected mixed $data;
 
+    public mixed $unionid;
+    public mixed $session_key;
+    public mixed $openid;
+    
     public function __construct(string $response)
     {
         $this->response = $response;

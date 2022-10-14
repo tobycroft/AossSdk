@@ -7,6 +7,7 @@ class WechatWxaPhoneRet
     public mixed $response;
     protected string $error;
     protected mixed $data;
+
     public mixed $phoneNumber;
     public mixed $purePhoneNumber;
     public mixed $countryCode;

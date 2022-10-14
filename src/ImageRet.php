@@ -4,11 +4,13 @@ namespace Tobycroft\AossSdk;
 
 class ImageRet
 {
-    public mixed $error = null;
-    public mixed $data = [];
+    public string $response;
+    protected mixed $error = null;
+    protected mixed $data = [];
 
     public function __construct($response)
     {
+        $this->response = $response;
         $json = json_decode($response, true);
         if (empty($json) || !isset($json["code"])) {
             $this->error = $response;

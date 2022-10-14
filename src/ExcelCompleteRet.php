@@ -5,9 +5,9 @@ namespace Tobycroft\AossSdk;
 class ExcelCompleteRet
 {
     public string $response;
-    public mixed $error = null;
-    public mixed $data = [];
-    public mixed $column = [];
+    protected mixed $error = null;
+    protected mixed $data = [];
+    protected mixed $column = [];
 
     public function __construct($response)
     {
@@ -24,7 +24,7 @@ class ExcelCompleteRet
                     $this->column[] = $key;
                 }
             } else {
-                $this->error = $json["data"];
+                $this->error = $json["echo"];
             }
         }
     }

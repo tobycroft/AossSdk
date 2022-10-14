@@ -4,9 +4,9 @@ namespace Tobycroft\AossSdk;
 
 class WechatWxaUnlimitedRet
 {
+    public mixed $response;
     protected string $error;
     protected mixed $data;
-    public mixed $response;
 
     public function __construct(string $response)
     {

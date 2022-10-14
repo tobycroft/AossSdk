@@ -4,8 +4,9 @@ namespace Tobycroft\AossSdk;
 
 class AossCompleteRet
 {
-    public mixed $error = null;
-    public mixed $data = [];
+    public string $response;
+    protected mixed $error = null;
+    protected mixed $data = [];
     public mixed $name = "";
     public mixed $path = "";
     public mixed $mime = "";
@@ -24,6 +25,7 @@ class AossCompleteRet
 
     public function __construct($response)
     {
+        $this->response = $response;
         $json = json_decode($response, true);
         if (empty($json) || !isset($json["code"])) {
             $this->error = $response;
