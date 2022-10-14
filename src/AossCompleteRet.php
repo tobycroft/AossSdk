@@ -52,7 +52,7 @@ class AossCompleteRet
         return $this;
     }
 
-    public function isSuccess()
+    public function isSuccess(): bool
     {
         return empty($this->error);
     }
