@@ -46,10 +46,23 @@ class AossCompleteRet
                 $this->width = $this->data["width"];
                 $this->height = $this->data["height"];
             } else {
-                $this->error = $json["data"];
+                $this->error = $json["echo"];
             }
         }
         return $this;
+    }
+
+    public function isSuccess()
+    {
+        return empty($this->error);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getError(): mixed
+    {
+        return $this->error;
     }
 }
 
