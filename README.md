@@ -67,4 +67,4 @@ Send request mail to aoss@tuuz.cc
 # Aoss程序支持
 
 - PHP（本版）
-- Golang（请查看本账号下的AossGoSDK）
+- Golang（请使用本账号下的AossGoSDK）
