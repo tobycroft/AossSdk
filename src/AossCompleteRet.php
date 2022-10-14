@@ -49,7 +49,6 @@ class AossCompleteRet
                 $this->error = $json["echo"];
             }
         }
-        return $this;
     }
 
     public function isSuccess(): bool

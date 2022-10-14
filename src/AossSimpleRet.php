@@ -19,6 +19,18 @@ class AossSimpleRet
                 $this->error = $json["data"];
             }
         }
-        return $this;
+    }
+
+    public function isSuccess(): bool
+    {
+        return empty($this->error);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getError(): mixed
+    {
+        return $this->error;
     }
 }
