@@ -24,6 +24,9 @@ class WechatWxaPhoneRet
         if ($json["code"] == "0") {
             $this->data = $json["data"];
             $this->phoneNumber = $this->data["phoneNumber"];
+            $this->purePhoneNumber = $this->data["purePhoneNumber"];
+            $this->countryCode = $this->data["countryCode"];
+            $this->watermark = $this->data["watermark"];
         } else {
             $this->error = $json["data"];
         }
