@@ -12,13 +12,21 @@ class Excel extends Aoss
         $this->token = $token;
 
         $this->send_url = $this->remote_url;
-        $this->send_url .= $this->send_path . "/dp";
-        $this->send_url .= $this->send_token . $this->token;
     }
 
     public function send_excel($real_path, $mime_type, $file_name): ExcelCompleteRet
     {
+        $this->send_url .= $this->send_path . '/dp';
+        $this->send_url .= $this->send_token . $this->token;
         $response = self::curl_send_file($real_path, $mime_type, $file_name, $this->send_url);
+        return new ExcelCompleteRet($response);
+    }
+
+    public function send_dp($file_url): ExcelCompleteRet
+    {
+        $this->send_url .= $this->send_path . '/url';
+        $this->send_url .= $this->send_token . $this->token;
+        $response = self::raw_post($this->send_url, ["file_url" => $file_url]);
         return new ExcelCompleteRet($response);
     }
 }
