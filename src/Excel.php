@@ -7,7 +7,7 @@ class Excel extends Aoss
 {
     protected string $send_path = "/v1/excel/index";
 
-    protected function __construct($token)
+    public function __construct($token)
     {
         $this->token = $token;
 
