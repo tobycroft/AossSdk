@@ -9,14 +9,14 @@ class WechatOffi extends Aoss
 {
     protected string $mode;
 
-    public function uniform_send(string $openid, $template_id, $url, $data): WechatOffiPush
+    public function uniform_send(string $openid, $template_id, $url, array $data): WechatOffiPush
     {
         $this->buildUrl(WechatFunc::Offi, WechatMode::$template_push);
         $postData = [
             'openid' => $openid,
             'url' => $url,
             'template_id' => $template_id,
-            'data' => $data,
+            'data' => json_encode($data, 320),
         ];
         return new WechatOffiPush(self::raw_post($this->send_url, $postData));
     }
