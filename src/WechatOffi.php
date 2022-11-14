@@ -20,6 +20,18 @@ class WechatOffi extends Aoss
         return new WechatOffiPush(self::raw_post($this->send_url, $postData));
     }
 
+    public function uniform_send_more(array $openids, string $template_id, $url, array $data): WechatOffiPush
+    {
+        $this->buildUrl(WechatFunc::Offi, WechatMode::$template_push);
+        $postData = [
+            'openids' => $openids,
+            'url' => $url,
+            'template_id' => $template_id,
+            'data' => json_encode($data, 320),
+        ];
+        return new WechatOffiPush(self::raw_post($this->send_url, $postData));
+    }
+
     public function buildUrl($wechatFunc, $wechatMode)
     {
         $this->send_path = $wechatFunc . $wechatMode;
