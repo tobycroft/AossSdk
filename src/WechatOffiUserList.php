@@ -25,19 +25,15 @@ class WechatOffiUserList
         }
     }
 
-    public function unionid(): string
-    {
-        return $this->unionid;
-    }
 
     public function session_key(): string
     {
         return $this->session_key;
     }
 
-    public function openid(): string
+    public function openids(): string
     {
-        return $this->openid;
+        return $this->openids;
     }
 
     /**
