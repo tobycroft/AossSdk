@@ -7,7 +7,6 @@ use Tobycroft\AossSdk\WechatRequestBuilder\WechatMode;
 
 class WechatOffi extends Aoss
 {
-    protected string $mode;
 
     public function uniform_send(string $openid, $template_id, $url, array $data): WechatOffiPush
     {
