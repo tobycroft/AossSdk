@@ -29,5 +29,35 @@ class WechatOffi extends Aoss
         $this->send_url .= $this->send_token . $this->token;
     }
 
+    public function get_user_list(): WechatOffiPush
+    {
+        $this->buildUrl(WechatFunc::Offi, WechatMode::$user_list);
+        $postData = [
+        ];
+        return new WechatOffiPush(self::raw_post($this->send_url, $postData));
+    }
+
+    public function get_user_info(string $openid, $template_id, $url, array $data): WechatOffiPush
+    {
+        $this->buildUrl(WechatFunc::Offi, WechatMode::$user_info);
+        $postData = [
+            'openid' => $openid,
+        ];
+        return new WechatOffiPush(self::raw_post($this->send_url, $postData));
+    }
+
+    public function get_openUrl(string $redirect_uri, $response_type, $scope, $state): WechatOffiPush
+    {
+        $this->buildUrl(WechatFunc::Offi, WechatMode::$openid_url);
+        $postData = [
+            'redirect_uri' => $redirect_uri,
+            'response_type' => $response_type,
+            'scope' => $scope,
+            'state' => $state,
+            'png' => false,
+        ];
+        return new WechatOffiPush(self::raw_post($this->send_url, $postData));
+    }
+
 
 }
