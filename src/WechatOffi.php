@@ -29,24 +29,24 @@ class WechatOffi extends Aoss
         $this->send_url .= $this->send_token . $this->token;
     }
 
-    public function get_user_list(): WechatOffiPush
+    public function get_user_list(): WechatOffiUserList
     {
         $this->buildUrl(WechatFunc::Offi, WechatMode::$user_list);
         $postData = [
         ];
-        return new WechatOffiPush(self::raw_post($this->send_url, $postData));
+        return new WechatOffiUserList(self::raw_post($this->send_url, $postData));
     }
 
-    public function get_user_info(string $openid, $template_id, $url, array $data): WechatOffiPush
+    public function get_user_info(string $openid, $template_id, $url, array $data): WechatOffiUserInfo
     {
         $this->buildUrl(WechatFunc::Offi, WechatMode::$user_info);
         $postData = [
             'openid' => $openid,
         ];
-        return new WechatOffiPush(self::raw_post($this->send_url, $postData));
+        return new WechatOffiUserInfo(self::raw_post($this->send_url, $postData));
     }
 
-    public function get_openUrl(string $redirect_uri, $response_type, $scope, $state): WechatOffiPush
+    public function get_openUrl(string $redirect_uri, $response_type, $scope, $state): WechatOffiOpenUrl
     {
         $this->buildUrl(WechatFunc::Offi, WechatMode::$openid_url);
         $postData = [
@@ -56,7 +56,7 @@ class WechatOffi extends Aoss
             'state' => $state,
             'png' => false,
         ];
-        return new WechatOffiPush(self::raw_post($this->send_url, $postData));
+        return new WechatOffiOpenUrl(self::raw_post($this->send_url, $postData));
     }
 
 
