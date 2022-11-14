@@ -35,17 +35,6 @@ class WechatOffiUserInfo
         }
     }
 
-
-    public function session_key(): string
-    {
-        return $this->session_key;
-    }
-
-    public function openids(): string
-    {
-        return $this->openids;
-    }
-
     /**
      * @return mixed
      */
