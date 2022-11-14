@@ -13,5 +13,10 @@ class WechatMode
     public static string $GetUserPhoneNumber = "getuserphonenumber";
     public static string $GenerateScheme = "generatescheme";
 
+    public static string $user_list = "user_list";
+    public static string $user_info = "user_info";
+    public static string $openid_url = "openid_url";
+    public static string $template_push = "template_push";
+
 
 }
