@@ -22,7 +22,7 @@ class WechatOffi extends Aoss
 
     public function uniform_send_more(array $openids, string $template_id, $url, array $data): WechatOffiPush
     {
-        $this->buildUrl(WechatFunc::Offi, WechatMode::$template_push);
+        $this->buildUrl(WechatFunc::Offi, WechatMode::$template_push_more);
         $postData = [
             'openids' => $openids,
             'url' => $url,
