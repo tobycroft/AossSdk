@@ -37,7 +37,7 @@ class WechatOffi extends Aoss
         return new WechatOffiUserList(self::raw_post($this->send_url, $postData));
     }
 
-    public function get_user_info(string $openid, $template_id, $url, array $data): WechatOffiUserInfo
+    public function get_user_info(string $openid): WechatOffiUserInfo
     {
         $this->buildUrl(WechatFunc::Offi, WechatMode::$user_info);
         $postData = [
