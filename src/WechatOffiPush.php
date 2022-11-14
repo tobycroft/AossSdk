@@ -5,10 +5,6 @@ namespace Tobycroft\AossSdk;
 class WechatOffiPush
 {
     public mixed $response;
-    public mixed $phoneNumber;
-    public mixed $purePhoneNumber;
-    public mixed $countryCode;
-    public mixed $watermark;
     protected string $error;
     protected mixed $data;
 
@@ -22,10 +18,6 @@ class WechatOffiPush
         }
         if ($json["code"] == "0") {
             $this->data = $json["data"];
-            $this->phoneNumber = $this->data["phoneNumber"];
-            $this->purePhoneNumber = $this->data["purePhoneNumber"];
-            $this->countryCode = $this->data["countryCode"];
-            $this->watermark = $this->data["watermark"];
         } else {
             $this->error = $json["echo"];
         }
