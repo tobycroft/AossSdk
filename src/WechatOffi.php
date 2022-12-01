@@ -20,7 +20,7 @@ class WechatOffi extends Aoss
         return new WechatOffiPush(self::raw_post($this->send_url, $postData));
     }
 
-    public function template_send(string $openid, $template_id, $url, array $data): WechatOffiPush
+    public function template_send(string $openid, $template_id, $url, array $data, string $client_msg_id = null): WechatOffiPush
     {
         $this->buildUrl(WechatFunc::Offi, WechatMode::$template_send);
         $postData = [
@@ -28,19 +28,21 @@ class WechatOffi extends Aoss
             'template_id' => $template_id,
             'url' => $url,
             'data' => json_encode($data, 320),
+            'client_msg_id' => $client_msg_id,
         ];
         return new WechatOffiPush(self::raw_post($this->send_url, $postData));
     }
 
-    public function template_send_miniprogram(string $openid, $template_id, $url, \miniprogram_struct $miniprogram_struct, array $data): WechatOffiPush
+    public function template_send_miniprogram(string $openid, $template_id, $url, \miniprogram_struct $miniprogram_struct, array $data, string $client_msg_id = null): WechatOffiPush
     {
         $this->buildUrl(WechatFunc::Offi, WechatMode::$template_send_miniprogram);
         $postData = [
             'openid' => $openid,
-            'url' => $url,
-            'miniprogram' => $miniprogram_struct,
             'template_id' => $template_id,
+            'url' => $url,
+            'miniprogram' => json_encode($miniprogram_struct, 320),
             'data' => json_encode($data, 320),
+            'client_msg_id' => $client_msg_id,
         ];
         return new WechatOffiPush(self::raw_post($this->send_url, $postData));
     }
