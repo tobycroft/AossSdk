@@ -16,8 +16,10 @@ class WechatMode
     public static string $user_list = "user_list";
     public static string $user_info = "user_info";
     public static string $openid_url = "openid_url";
-    public static string $template_push = "template_push";
-    public static string $template_push_more = "template_push_more";
+    public static string $uniform_send = "uniform_send";
+    public static string $template_send = "template_send";
+    public static string $template_send_miniprogram = "template_send_miniprogram";
+    public static string $uniform_send_more = "uniform_send_more";
 
 
 }
