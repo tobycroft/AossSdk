@@ -20,6 +20,6 @@ class WechatMode
     public static string $template_send = "template_send";
     public static string $template_send_miniprogram = "template_send_miniprogram";
     public static string $uniform_send_more = "uniform_send_more";
-
+    public static string $signature = 'signature';
 
 }
