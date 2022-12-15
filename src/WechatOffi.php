@@ -58,9 +58,9 @@ class WechatOffi extends Aoss
         return new WechatOffiPush(self::raw_post($this->send_url, $postData));
     }
 
-    public function buildUrl($wechatMode)
+    public function buildUrl($wechatRouter)
     {
-        $this->send_path = $wechatMode;
+        $this->send_path = $wechatRouter;
 
         $this->send_url = $this->remote_url;
         $this->send_url .= $this->send_path;

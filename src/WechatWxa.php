@@ -10,9 +10,9 @@ class WechatWxa extends Aoss
     protected string $mode;
 
 
-    public function buildUrl($wechatMode)
+    public function buildUrl($wechatRouter)
     {
-        $this->send_path = $wechatMode;
+        $this->send_path = $wechatRouter;
 
         $this->send_url = $this->remote_url;
         $this->send_url .= $this->send_path;

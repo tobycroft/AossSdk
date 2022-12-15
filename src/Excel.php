@@ -14,6 +14,15 @@ class Excel extends Aoss
         $this->send_url = $this->remote_url;
     }
 
+    public function buildUrl($wechatRouter)
+    {
+        $this->send_path = $wechatRouter;
+
+        $this->send_url = $this->remote_url;
+        $this->send_url .= $this->send_path;
+        $this->send_url .= $this->send_token . $this->token;
+    }
+
     public function send_excel($real_path, $mime_type, $file_name): ExcelCompleteRet
     {
         $this->send_url .= $this->send_path . '/index/dp';
