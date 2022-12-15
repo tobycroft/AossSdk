@@ -2,14 +2,13 @@
 
 namespace Tobycroft\AossSdk;
 
-use Tobycroft\AossSdk\WechatRequestBuilder\WechatFunc;
-use Tobycroft\AossSdk\WechatRequestBuilder\WechatMode;
+use Tobycroft\AossSdk\WechatRequestBuilder\WechatRouter;
 
 class WechatTicket extends Aoss
 {
     public function signature(string $code): WechatWxaPhoneRet
     {
-        $this->buildUrl(WechatFunc::Wxa, WechatMode::$GetUserPhoneNumber);
+        $this->buildUrl(WechatRouter::$ticket_signature);
         $ret = new WechatWxaPhoneRet(
             self::raw_post($this->send_url,
                 [
@@ -20,13 +19,14 @@ class WechatTicket extends Aoss
         return $ret;
     }
 
-    public function buildUrl($wechatFunc, $wechatMode)
+    public function buildUrl($wechatMode)
     {
-        $this->send_path = $wechatFunc . $wechatMode;
+        $this->send_path = $wechatMode;
 
         $this->send_url = $this->remote_url;
         $this->send_url .= $this->send_path;
         $this->send_url .= $this->send_token . $this->token;
     }
+
 
 }
