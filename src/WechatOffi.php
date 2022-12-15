@@ -9,7 +9,7 @@ class WechatOffi extends Aoss
 
     public function uniform_send(string $openid, $template_id, $url, array $data): WechatOffiPush
     {
-        $this->buildUrl(WechatRouter::$uniform_send);
+        $this->buildUrl(WechatRouter::uniform_send);
         $postData = [
             'openid' => $openid,
             'url' => $url,
@@ -21,7 +21,7 @@ class WechatOffi extends Aoss
 
     public function template_send(string $openid, $template_id, $url, array $data, string $client_msg_id = null): WechatOffiPush
     {
-        $this->buildUrl(WechatRouter::$template_send);
+        $this->buildUrl(WechatRouter::template_send);
         $postData = [
             'openid' => $openid,
             'template_id' => $template_id,
@@ -34,7 +34,7 @@ class WechatOffi extends Aoss
 
     public function template_send_miniprogram(string $openid, $template_id, $url, \miniprogram_struct $miniprogram_struct, array $data, string $client_msg_id = null): WechatOffiPush
     {
-        $this->buildUrl(WechatRouter::$template_send_miniprogram);
+        $this->buildUrl(WechatRouter::template_send_miniprogram);
         $postData = [
             'openid' => $openid,
             'template_id' => $template_id,
@@ -48,7 +48,7 @@ class WechatOffi extends Aoss
 
     public function uniform_send_more(array $openids, string $template_id, $url, array $data): WechatOffiPush
     {
-        $this->buildUrl(WechatRouter::$uniform_send_more);
+        $this->buildUrl(WechatRouter::uniform_send_more);
         $postData = [
             'openids' => $openids,
             'url' => $url,
@@ -69,7 +69,7 @@ class WechatOffi extends Aoss
 
     public function get_user_list(): WechatOffiUserList
     {
-        $this->buildUrl(WechatRouter::$user_list);
+        $this->buildUrl(WechatRouter::user_list);
         $postData = [
         ];
         return new WechatOffiUserList(self::raw_post($this->send_url, $postData));
@@ -77,7 +77,7 @@ class WechatOffi extends Aoss
 
     public function get_user_info(string $openid): WechatOffiUserInfo
     {
-        $this->buildUrl(WechatRouter::$user_info);
+        $this->buildUrl(WechatRouter::user_info);
         $postData = [
             'openid' => $openid,
         ];
@@ -86,7 +86,7 @@ class WechatOffi extends Aoss
 
     public function get_openUrl(string $redirect_uri, $response_type, $scope, $state): WechatOffiOpenUrl
     {
-        $this->buildUrl(WechatRouter::$openid_url);
+        $this->buildUrl(WechatRouter::openid_url);
         $postData = [
             'redirect_uri' => $redirect_uri,
             'response_type' => $response_type,
