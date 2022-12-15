@@ -6,13 +6,15 @@ use Tobycroft\AossSdk\WechatRequestBuilder\WechatRouter;
 
 class WechatTicket extends Aoss
 {
-    public function signature(string $code): WechatWxaPhoneRet
+    public function signature(string $noncestr, $timestamp, $url): WechatTicketSignatureRet
     {
         $this->buildUrl(WechatRouter::$ticket_signature);
-        $ret = new WechatWxaPhoneRet(
+        $ret = new WechatTicketSignatureRet(
             self::raw_post($this->send_url,
                 [
-                    'code' => $code,
+                    'noncestr' => $noncestr,
+                    'timestamp' => $timestamp,
+                    'url' => $url,
                 ]
             )
         );
