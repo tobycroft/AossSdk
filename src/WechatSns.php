@@ -2,15 +2,15 @@
 
 namespace Tobycroft\AossSdk;
 
-use Tobycroft\AossSdk\WechatRequestBuilder\WechatFunc;
-use Tobycroft\AossSdk\WechatRequestBuilder\WechatMode;
+
+use Tobycroft\AossSdk\WechatRequestBuilder\WechatRouter;
 
 class WechatSns extends WechatWxa
 {
 
     public function jscode2Session(string $js_code, $grant_type): WechatSnsRet
     {
-        $this->buildUrl(WechatFunc::Sns, WechatMode::$jscode2session);
+        $this->buildUrl(WechatRouter::jscode2session);
         $postData = [
             "js_code" => $js_code,
             "grant_type" => $grant_type
