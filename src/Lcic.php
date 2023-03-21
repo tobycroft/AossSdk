@@ -83,6 +83,18 @@ class Lcic extends Aoss
         return $ret;
     }
 
+    public function RoomDelete(string|int $RoomId): LcicRoomModifyRet
+    {
+        $ret = new LcicRoomModifyRet(
+            self::raw_post($this->remote_url . LcicRouter::lcic_room_delete . $this->send_token . $this->token,
+                [
+                    'RoomId' => $RoomId,
+                ]
+            )
+        );
+        return $ret;
+    }
+
 
     /**
      * @param string $OriginId 学生id
