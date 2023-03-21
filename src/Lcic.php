@@ -4,7 +4,7 @@ namespace Tobycroft\AossSdk;
 
 use Tobycroft\AossSdk\LcicRequestBuilder\LcicRouter;
 
-class LcicRoom extends Aoss
+class Lcic extends Aoss
 {
 
     public function __construct()
@@ -26,7 +26,7 @@ class LcicRoom extends Aoss
         return $ret;
     }
 
-    public function create_room(string $name)
+    public function CreateRoom(string $name)
     {
 
     }

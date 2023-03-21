@@ -2,7 +2,7 @@
 
 namespace Tobycroft\AossSdk;
 
-class LcicRoomRet
+class LcicRet
 {
     public mixed $response;
     public mixed $phoneNumber;
