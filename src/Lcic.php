@@ -29,11 +29,27 @@ class Lcic extends Aoss
         return $ret;
     }
 
-    public function CreateRoom(string $TeacherId, $StartTime, $EndTime, $Name): LcicRoomCreateRet
+    public function RoomCreate(string $TeacherId, $StartTime, $EndTime, $Name): LcicRoomCreateRet
     {
         $ret = new LcicRoomCreateRet(
             self::raw_post($this->remote_url . LcicRouter::lcic_room_create . $this->send_token . $this->token,
                 [
+                    'TeacherId' => $TeacherId,
+                    'StartTime' => $StartTime,
+                    'EndTime' => $EndTime,
+                    'Name' => $Name,
+                ]
+            )
+        );
+        return $ret;
+    }
+
+    public function RoomModify(string $RoomId, $TeacherId, $StartTime, $EndTime, $Name): LcicRoomCreateRet
+    {
+        $ret = new LcicRoomCreateRet(
+            self::raw_post($this->remote_url . LcicRouter::lcic_room_create . $this->send_token . $this->token,
+                [
+                    'RoomId' => $RoomId,
                     'TeacherId' => $TeacherId,
                     'StartTime' => $StartTime,
                     'EndTime' => $EndTime,
