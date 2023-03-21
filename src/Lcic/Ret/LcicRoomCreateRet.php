@@ -41,6 +41,6 @@ class LcicRoomCreateRet
 
     public function GetRoomId(): string
     {
-        return $this->GetRoomId();
+        return $this->RoomId;
     }
 }
