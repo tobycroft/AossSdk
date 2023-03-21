@@ -2,7 +2,7 @@
 
 namespace Tobycroft\AossSdk\Lcic\Ret;
 
-class LcicUserAuto
+class LcicUserAutoRet
 {
     public mixed $response;
     protected string $error;

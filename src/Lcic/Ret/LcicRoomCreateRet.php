@@ -1,16 +1,14 @@
 <?php
 
-namespace Tobycroft\AossSdk;
+namespace Tobycroft\AossSdk\Lcic\Ret;
 
-class LcicRet
+class LcicRoomCreateRet
 {
     public mixed $response;
-    public mixed $phoneNumber;
-    public mixed $purePhoneNumber;
-    public mixed $countryCode;
-    public mixed $watermark;
     protected string $error;
     protected mixed $data;
+
+    protected string $RoomId;
 
     public function __construct(string $response)
     {
@@ -22,10 +20,7 @@ class LcicRet
         }
         if ($json["code"] == "0") {
             $this->data = $json["data"];
-            $this->phoneNumber = $this->data["phoneNumber"];
-            $this->purePhoneNumber = $this->data["purePhoneNumber"];
-            $this->countryCode = $this->data["countryCode"];
-            $this->watermark = $this->data["watermark"];
+            $this->RoomId = $this->data["RoomId"];
         } else {
             $this->error = $json["echo"];
         }
@@ -42,5 +37,10 @@ class LcicRet
     public function isSuccess(): bool
     {
         return empty($this->error);
+    }
+
+    public function GetRoomId(): string
+    {
+        return $this->GetRoomId();
     }
 }
