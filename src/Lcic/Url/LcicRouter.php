@@ -1,6 +1,6 @@
 <?php
 
-namespace Tobycroft\AossSdk\LcicRequestBuilder;
+namespace Tobycroft\AossSdk\Lcic\Url;
 
 class LcicRouter
 {

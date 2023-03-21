@@ -2,7 +2,8 @@
 
 namespace Tobycroft\AossSdk;
 
-use Tobycroft\AossSdk\LcicRequestBuilder\LcicRouter;
+use Tobycroft\AossSdk\Lcic\Ret\LcicUserAuto;
+use Tobycroft\AossSdk\Lcic\Url\LcicRouter;
 
 class Lcic extends Aoss
 {
@@ -12,9 +13,9 @@ class Lcic extends Aoss
 
     }
 
-    public function CreateUser(string $Name, $OriginId, $Avatar): WechatWxaPhoneRet
+    public function CreateUser(string $Name, $OriginId, $Avatar): LcicUserAuto
     {
-        $ret = new WechatWxaPhoneRet(
+        $ret = new LcicUserAuto(
             self::raw_post(LcicRouter::lcic_user_auto,
                 [
                     'Name' => $Name,
