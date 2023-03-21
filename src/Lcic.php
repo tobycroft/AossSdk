@@ -15,6 +15,12 @@ class Lcic extends Aoss
 
     }
 
+    /**
+     * @param string $Name 用户在直播间的显示名称
+     * @param $OriginId 用户在你系统中的标识符
+     * @param $Avatar 用户头像url地址
+     * @return LcicUserAutoRet
+     */
     public function CreateUser(string $Name, $OriginId, $Avatar): LcicUserAutoRet
     {
 
@@ -30,6 +36,13 @@ class Lcic extends Aoss
         return $ret;
     }
 
+    /**
+     * @param string $TeacherId 教师在你系统中的id
+     * @param $StartTime 开始时间int
+     * @param $EndTime 结束时间int
+     * @param $Name 直播房间的名称
+     * @return LcicRoomCreateRet
+     */
     public function RoomCreate(string $TeacherId, $StartTime, $EndTime, $Name): LcicRoomCreateRet
     {
         $ret = new LcicRoomCreateRet(
@@ -45,6 +58,14 @@ class Lcic extends Aoss
         return $ret;
     }
 
+    /**
+     * @param string $RoomId 房间ID
+     * @param $TeacherId 老师ID
+     * @param $StartTime 开始时间int
+     * @param $EndTime 结束时间int
+     * @param $Name 房间名称
+     * @return LcicRoomModifyRet
+     */
     public function RoomModify(string $RoomId, $TeacherId, $StartTime, $EndTime, $Name): LcicRoomModifyRet
     {
         $ret = new LcicRoomModifyRet(
@@ -61,6 +82,12 @@ class Lcic extends Aoss
         return $ret;
     }
 
+
+    /**
+     * @param string $OriginId 学生id
+     * @param $TeacherId 老师id
+     * @return LcicRoomCreateRet
+     */
     public function RoomUrl(string $OriginId, $TeacherId): LcicRoomCreateRet
     {
         $ret = new LcicRoomCreateRet(
