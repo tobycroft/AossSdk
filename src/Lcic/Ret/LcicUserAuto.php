@@ -40,4 +40,14 @@ class LcicUserAuto
     {
         return empty($this->error);
     }
+
+    public function GetToken(): string
+    {
+        return $this->Token;
+    }
+
+    public function GetUserId(): string
+    {
+        return $this->GetUserId();
+    }
 }
