@@ -4,6 +4,7 @@ namespace Tobycroft\AossSdk;
 
 use Tobycroft\AossSdk\Lcic\Ret\LcicRoomCreateRet;
 use Tobycroft\AossSdk\Lcic\Ret\LcicRoomModifyRet;
+use Tobycroft\AossSdk\Lcic\Ret\LcicRoomUrlRet;
 use Tobycroft\AossSdk\Lcic\Ret\LcicUserAutoRet;
 use Tobycroft\AossSdk\Lcic\Url\LcicRouter;
 
@@ -88,9 +89,9 @@ class Lcic extends Aoss
      * @param $TeacherId 老师id
      * @return LcicRoomCreateRet
      */
-    public function RoomUrl(string $OriginId, $TeacherId): LcicRoomCreateRet
+    public function RoomUrl(string $OriginId, $TeacherId): LcicRoomUrlRet
     {
-        $ret = new LcicRoomCreateRet(
+        $ret = new LcicRoomUrlRet(
             self::raw_post($this->remote_url . LcicRouter::lcic_room_link . $this->send_token . $this->token,
                 [
                     'OriginId' => $OriginId,
