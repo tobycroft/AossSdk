@@ -11,9 +11,9 @@ use Tobycroft\AossSdk\Lcic\Url\LcicRouter;
 class Lcic extends Aoss
 {
 
-    public function __construct()
+    public function __construct($token)
     {
-
+        $this->token = $token;
     }
 
     /**
