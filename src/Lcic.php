@@ -44,7 +44,7 @@ class Lcic extends Aoss
      * @param $Name 直播房间的名称
      * @return LcicRoomCreateRet
      */
-    public function RoomCreate(string|int $TeacherId, $StartTime, $EndTime, $Name): LcicRoomCreateRet
+    public function RoomCreate(string|int $TeacherId, int $StartTime, $EndTime, string $Name): LcicRoomCreateRet
     {
         $ret = new LcicRoomCreateRet(
             self::raw_post($this->remote_url . LcicRouter::lcic_room_create . $this->send_token . $this->token,
@@ -67,7 +67,7 @@ class Lcic extends Aoss
      * @param $Name 房间名称
      * @return LcicRoomModifyRet
      */
-    public function RoomModify(string|int $RoomId, $TeacherId, $StartTime, $EndTime, $Name): LcicRoomModifyRet
+    public function RoomModify(string|int $RoomId, $TeacherId, int $StartTime, $EndTime, string $Name): LcicRoomModifyRet
     {
         $ret = new LcicRoomModifyRet(
             self::raw_post($this->remote_url . LcicRouter::lcic_room_modify . $this->send_token . $this->token,
