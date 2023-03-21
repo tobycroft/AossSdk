@@ -48,6 +48,6 @@ class LcicUserAutoRet
 
     public function GetUserId(): string
     {
-        return $this->GetUserId();
+        return $this->UserId;
     }
 }
