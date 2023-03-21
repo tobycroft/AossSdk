@@ -87,7 +87,7 @@ class Lcic extends Aoss
     /**
      * @param string $OriginId 学生id
      * @param $TeacherId 老师id
-     * @return LcicRoomCreateRet
+     * @return LcicRoomUrlRet
      */
     public function RoomUrl(string $OriginId, $TeacherId): LcicRoomUrlRet
     {
