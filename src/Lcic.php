@@ -3,6 +3,7 @@
 namespace Tobycroft\AossSdk;
 
 use Tobycroft\AossSdk\Lcic\Ret\LcicRoomCreateRet;
+use Tobycroft\AossSdk\Lcic\Ret\LcicRoomDeleteRet;
 use Tobycroft\AossSdk\Lcic\Ret\LcicRoomModifyRet;
 use Tobycroft\AossSdk\Lcic\Ret\LcicRoomUrlRet;
 use Tobycroft\AossSdk\Lcic\Ret\LcicUserAutoRet;
@@ -83,9 +84,9 @@ class Lcic extends Aoss
         return $ret;
     }
 
-    public function RoomDelete(string|int $RoomId): LcicRoomModifyRet
+    public function RoomDelete(string|int $RoomId): LcicRoomDeleteRet
     {
-        $ret = new LcicRoomModifyRet(
+        $ret = new LcicRoomDeleteRet(
             self::raw_post($this->remote_url . LcicRouter::lcic_room_delete . $this->send_token . $this->token,
                 [
                     'RoomId' => $RoomId,
