@@ -84,6 +84,10 @@ class Lcic extends Aoss
         return $ret;
     }
 
+    /**
+     * @param string|int $RoomId 房间ID
+     * @return LcicRoomDeleteRet
+     */
     public function RoomDelete(string|int $RoomId): LcicRoomDeleteRet
     {
         $ret = new LcicRoomDeleteRet(
