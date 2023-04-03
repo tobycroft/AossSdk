@@ -7,7 +7,7 @@ use const Tobycroft\AossSdk\Conf\baseUrl;
 
 class Aoss
 {
-    protected string $remote_url = "http://upload.tuuz.cc:81";
+    protected string $remote_url = baseUrl;
     protected string $send_url;
     protected string $send_path = "/v1/file/index";
     protected string $send_token = "?token=";
@@ -22,7 +22,6 @@ class Aoss
      */
     public function __construct($token, $mode = "complete", $remote_url = "")
     {
-        $this->remote_url = baseUrl;
         $this->send_url = $remote_url;
         $this->token = $token;
         $this->mode = $mode;

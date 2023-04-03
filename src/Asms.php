@@ -2,11 +2,12 @@
 
 namespace Tobycroft\AossSdk;
 
+
 use const Tobycroft\AossSdk\Conf\baseUrls;
 
 class Asms extends Aoss
 {
-    protected string $remote_url = "https://upload.tuuz.cc:444";
+    protected string $remote_url = baseUrls;
     protected string $send_path = '/v1/sms/single/push';
     protected string $send_url;
     protected string $name;
