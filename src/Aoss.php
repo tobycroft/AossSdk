@@ -3,11 +3,10 @@
 namespace Tobycroft\AossSdk;
 
 use CURLFile;
-use const Tobycroft\AossSdk\Conf\baseUrl;
 
 class Aoss
 {
-    protected string $remote_url = baseUrl;
+    protected string $remote_url = 'http://upload.familyeducation.org.cn:81';
     protected string $send_url;
     protected string $send_path = "/v1/file/index";
     protected string $send_token = "?token=";
