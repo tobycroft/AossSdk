@@ -3,7 +3,7 @@
 namespace Tobycroft\AossSdk;
 
 use CURLFile;
-use const Tobycroft\AossSdk\Conf\baseUrls;
+use const Tobycroft\AossSdk\Conf\baseUrl;
 
 class Aoss
 {
@@ -22,7 +22,7 @@ class Aoss
      */
     public function __construct($token, $mode = "complete", $remote_url = "")
     {
-        $this->remote_url = baseUrls;
+        $this->remote_url = baseUrl;
         $this->send_url = $remote_url;
         $this->token = $token;
         $this->mode = $mode;
