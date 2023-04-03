@@ -2,7 +2,7 @@
 
 namespace Tobycroft\AossSdk;
 
-use const Tobycroft\AossSdk\Conf\baseUrls;
+use const Tobycroft\AossSdk\Conf\baseUrl;
 
 class Asms extends Aoss
 {
@@ -13,7 +13,7 @@ class Asms extends Aoss
 
     public function __construct($name, $token)
     {
-        $this->remote_url = baseUrls;
+        $this->remote_url = baseUrl;
         $this->name = $name;
         $this->token = $token;
 
