@@ -51,7 +51,7 @@ class Excel extends Aoss
 
     public function create_excel_fileurl(array $data): ExcelCreateRet
     {
-        $this->send_url .= $this->send_path . '/index/create';
+        $this->send_url .= $this->send_path . '/index/create_file';
         $this->send_url .= $this->send_token . $this->token;
         $response = self::raw_post($this->send_url, ['data' => json_encode($data, 320)]);
         return new ExcelCreateRet($response);
