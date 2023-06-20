@@ -1,7 +1,9 @@
 <?php
 
-namespace Tobycroft\AossSdk;
+namespace Tobycroft\AossSdk\Excel;
 
+
+use Tobycroft\AossSdk\Aoss;
 
 class Excel extends Aoss
 {
