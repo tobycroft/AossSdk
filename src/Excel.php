@@ -43,7 +43,7 @@ class Excel extends Aoss
     {
         $this->send_url .= $this->send_path . '/index/create';
         $this->send_url .= $this->send_token . $this->token;
-        $response = self::raw_post($this->send_url, ['data' => $data]);
+        $response = self::raw_post($this->send_url, ['data' => json_encode($data, 320)]);
         return $response;
     }
 }
