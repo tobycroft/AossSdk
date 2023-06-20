@@ -35,4 +35,9 @@ class ExcelCreateRet
     {
         return empty($this->error);
     }
+
+    public function file_url(): string
+    {
+        return $this->data;
+    }
 }
