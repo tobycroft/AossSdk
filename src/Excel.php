@@ -38,4 +38,12 @@ class Excel extends Aoss
         $response = self::raw_post($this->send_url, ["md5" => $md5]);
         return new ExcelCompleteRet($response);
     }
+
+    public function create_excel_download_directly(array $data)
+    {
+        $this->send_url .= $this->send_path . '/index/create';
+        $this->send_url .= $this->send_token . $this->token;
+        $response = self::raw_post($this->send_url, ['data' => $data]);
+        return $response;
+    }
 }
