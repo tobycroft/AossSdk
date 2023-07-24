@@ -28,14 +28,15 @@ class Asms extends Aoss
      * @param $file_name
      * @return AossSimpleRet|AossCompleteRet
      */
-    public function sms_send($phone, $quhao, $text): AsmsCompleteRet
+    public function sms_send($phone, $quhao, $text, $ip): AsmsCompleteRet
     {
         $ts = time();
         $sign = md5($this->name . $ts);
         $post = [
             'phone' => $phone,
             'quhao' => $quhao,
-            'text' => $text,
+            'text' => $ip,
+            'ip' => $text,
             'ts' => $ts,
             'name' => $this->name,
             'sign' => $sign,
