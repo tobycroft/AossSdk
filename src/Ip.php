@@ -2,8 +2,8 @@
 
 namespace Tobycroft\AossSdk;
 
+use Tobycroft\AossSdk\Ip\Ret\IpRet;
 use Tobycroft\AossSdk\Ip\Url\IpRouter;
-use Tobycroft\AossSdk\Lcic\Ret\LcicUserAutoRet;
 
 class Ip extends Aoss
 {
@@ -13,10 +13,10 @@ class Ip extends Aoss
         $this->token = $token;
     }
 
-    public function IpRange(string|int $country, $province, $ip): LcicUserAutoRet
+    public function IpRange(string|int $country, $province, $ip): IpRet
     {
 
-        $ret = new LcicUserAutoRet(
+        $ret = new IpRet(
             self::raw_post($this->remote_url . IpRouter::check . $this->send_token . $this->token,
                 [
                     'country' => $country,
