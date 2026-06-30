@@ -19,13 +19,12 @@ use Tobycroft\AossSdk\File;
 ## 构造方法
 
 ```php
-public function __construct(string $appid, string $token, string $remote_url = '')
+public function __construct(string $token, string $remote_url = '')
 ```
 
 | 参数 | 类型 | 说明 |
 |------|------|------|
-| appid | string | 项目 AppID |
-| token | string | 项目 Open Token（后端密钥，不可暴露给前端） |
+| token | string | OSS Token（后端密钥，不可暴露给前端） |
 | remote_url | string | 可选，自定义远程地址，默认 `https://upload.tuuz.cc:444` |
 
 ## 方法
@@ -56,6 +55,23 @@ public function getUploadToken(): FileRet
 | isSuccess() | bool | 是否成功 |
 | getError() | mixed | 获取错误信息 |
 
+### getUploadUrl
+
+```php
+public function getUploadUrl(): FileUrlRet
+```
+
+从 AOSSTP8 获取完整的上传地址。
+
+**返回值 `FileUrlRet`：**
+
+| 属性 | 类型 | 说明 |
+|------|------|------|
+| upload_url | string | 完整上传地址 |
+| error | mixed | 错误信息，成功时为 null |
+| isSuccess() | bool | 是否成功 |
+| getError() | mixed | 获取错误信息 |
+
 ## 使用示例
 
 ### 基本用法
@@ -63,7 +79,7 @@ public function getUploadToken(): FileRet
 ```php
 use Tobycroft\AossSdk\File;
 
-$file = new File('your-appid', 'your-open-token');
+$file = new File('your-oss-token');
 $ret = $file->getUploadToken();
 
 if ($ret->isSuccess()) {
@@ -74,14 +90,25 @@ if ($ret->isSuccess()) {
 }
 ```
 
+### 获取上传地址
+
+```php
+$file = new File('your-oss-token');
+$ret = $file->getUploadUrl();
+
+if ($ret->isSuccess()) {
+    echo $ret->upload_url; // https://upload.tuuz.cc:433/v2/file/index/upfull
+}
+```
+
 ### 自定义地址
 
 ```php
 // 方式一：构造函数传入
-$file = new File('appid', 'token', 'https://custom.example.com:444');
+$file = new File('your-oss-token', 'https://custom.example.com:444');
 
 // 方式二：链式调用
-$file = (new File('appid', 'token'))
+$file = (new File('your-oss-token'))
     ->setRemoteUrl('https://custom.example.com:444');
 
 $ret = $file->getUploadToken();
@@ -100,19 +127,21 @@ class Upload
 {
     public function token()
     {
-        $file = new File('your-appid', 'your-open-token');
+        $file = new File('your-oss-token');
         $ret = $file->getUploadToken();
 
         if (!$ret->isSuccess()) {
             return json(['code' => -1, 'msg' => $ret->getError()]);
         }
 
+        $urlRet = $file->getUploadUrl();
+
         return json([
             'code' => 0,
             'data' => [
                 'token'      => $ret->token,
                 'expired_at' => $ret->expired_at,
-                'upload_url' => 'https://upload.tuuz.cc:444/v2/file/index/upfull',
+                'upload_url' => $urlRet->isSuccess() ? $urlRet->upload_url : '',
             ],
         ]);
     }
@@ -131,7 +160,7 @@ const formData = new FormData();
 formData.append('file', fileInput.files[0]);
 
 const uploadResp = await fetch(
-    `https://upload.tuuz.cc:444/v2/file/index/upfull?token=${token}`,
+    `https://upload.tuuz.cc:433/v2/file/index/upfull?token=${token}`,
     { method: 'POST', body: formData }
 );
 
@@ -144,7 +173,7 @@ console.log('上传结果:', result.data);
 SDK 内部自动生成签名：
 
 ```
-sign = MD5(Appid + Token + timestamp)
+sign = MD5(Token + timestamp)
 ```
 
 - `timestamp` 为 Unix 时间戳

@@ -5,12 +5,10 @@ namespace Tobycroft\AossSdk;
 class File
 {
     private string $remote_url = 'https://upload.tuuz.cc:444';
-    private string $appid;
     private string $token;
 
-    public function __construct(string $appid, string $token, string $remote_url = '')
+    public function __construct(string $token, string $remote_url = '')
     {
-        $this->appid = $appid;
         $this->token = $token;
         if (!empty($remote_url)) {
             $this->remote_url = $remote_url;
@@ -26,10 +24,10 @@ class File
     public function getUploadToken(): FileRet
     {
         $timestamp = (string)time();
-        $sign = md5($this->appid . $this->token . $timestamp);
+        $sign = md5($this->token . $timestamp);
 
         $postData = [
-            'appid' => $this->appid,
+            'token' => $this->token,
             'timestamp' => $timestamp,
             'sign' => $sign,
         ];
@@ -41,10 +39,10 @@ class File
     public function getUploadUrl(): FileUrlRet
     {
         $timestamp = (string)time();
-        $sign = md5($this->appid . $this->token . $timestamp);
+        $sign = md5($this->token . $timestamp);
 
         $postData = [
-            'appid' => $this->appid,
+            'token' => $this->token,
             'timestamp' => $timestamp,
             'sign' => $sign,
         ];
