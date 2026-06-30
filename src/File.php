@@ -118,6 +118,9 @@ class FileRet
 class FileUrlRet
 {
     public mixed $error = null;
+    public string $token = '';
+    public string $expired_at = '';
+    public string $url = '';
     public string $upload_url = '';
 
     public function __construct($response)
@@ -128,7 +131,10 @@ class FileUrlRet
             return;
         }
         if ($json['code'] == 0) {
-            $this->upload_url = $json['data']['upload_url'];
+            $this->token = $json['data']['token'] ?? '';
+            $this->expired_at = $json['data']['expired_at'] ?? '';
+            $this->url = $json['data']['url'] ?? '';
+            $this->upload_url = $json['data']['upload_url'] ?? '';
         } else {
             $this->error = $json['echo'] ?? 'unknown error';
         }

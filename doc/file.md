@@ -67,7 +67,10 @@ public function getUploadUrl(): FileUrlRet
 
 | 属性 | 类型 | 说明 |
 |------|------|------|
-| upload_url | string | 完整上传地址 |
+| token | string | 临时上传 Token |
+| expired_at | string | 过期时间 |
+| url | string | 上传地址（不带 querystring） |
+| upload_url | string | 完整上传地址（含 querystring token） |
 | error | mixed | 错误信息，成功时为 null |
 | isSuccess() | bool | 是否成功 |
 | getError() | mixed | 获取错误信息 |
@@ -84,7 +87,10 @@ public function getUploadHashUrl(): FileUrlRet
 
 | 属性 | 类型 | 说明 |
 |------|------|------|
-| upload_url | string | Hash 上传地址 |
+| token | string | 临时上传 Token |
+| expired_at | string | 过期时间 |
+| url | string | Hash 上传地址（不带 querystring） |
+| upload_url | string | Hash 上传地址（含 querystring token） |
 | error | mixed | 错误信息，成功时为 null |
 | isSuccess() | bool | 是否成功 |
 | getError() | mixed | 获取错误信息 |
@@ -142,7 +148,9 @@ $file = new File('your-oss-token');
 $ret = $file->getUploadUrl();
 
 if ($ret->isSuccess()) {
-    echo $ret->upload_url; // https://upload.tuuz.cc:433/v2/file/index/upfull
+    echo $ret->token;       // 临时 token
+    echo $ret->expired_at;  // 过期时间
+    echo $ret->upload_url;  // https://upload.tuuz.cc:433/v2/file/index/upfull?token=xxx
 }
 ```
 
@@ -151,9 +159,10 @@ if ($ret->isSuccess()) {
 ```php
 $file = new File('your-oss-token');
 
-// 1. 获取 Hash 上传地址
+// 1. 获取 Hash 上传地址（含 token）
 $urlRet = $file->getUploadHashUrl();
-echo $urlRet->upload_url; // https://upload.tuuz.cc:433/v2/file/index/uphash
+echo $urlRet->token;       // 临时 token
+echo $urlRet->upload_url;  // https://upload.tuuz.cc:433/v2/file/index/uphash?token=xxx
 
 // 2. 客户端上传后获得 MD5 哈希
 // 3. 通过哈希查询完整文件信息
