@@ -17,6 +17,12 @@ class File
         }
     }
 
+    public function setRemoteUrl(string $remote_url): self
+    {
+        $this->remote_url = $remote_url;
+        return $this;
+    }
+
     public function getUploadToken(): FileRet
     {
         $timestamp = (string)time();
