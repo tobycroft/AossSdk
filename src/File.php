@@ -51,7 +51,7 @@ class File
         return new FileUrlRet($response);
     }
 
-    public function getUploadUrlHash(): FileUrlRet
+    public function getUploadHashUrl(): FileUrlRet
     {
         $timestamp = (string)time();
         $sign = md5($this->token . $timestamp);
@@ -66,7 +66,7 @@ class File
         return new FileUrlRet($response);
     }
 
-    public function queryByHash(string $hash): FileHashRet
+    public function getUploadedFileUrlByHash(string $hash): FileHashRet
     {
         $timestamp = (string)time();
         $sign = md5($this->token . $timestamp);

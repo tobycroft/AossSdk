@@ -72,10 +72,10 @@ public function getUploadUrl(): FileUrlRet
 | isSuccess() | bool | 是否成功 |
 | getError() | mixed | 获取错误信息 |
 
-### getUploadUrlHash
+### getUploadHashUrl
 
 ```php
-public function getUploadUrlHash(): FileUrlRet
+public function getUploadHashUrl(): FileUrlRet
 ```
 
 从 AOSSTP8 获取 Hash 模式的上传地址（上传后仅返回文件 MD5 哈希）。
@@ -89,10 +89,10 @@ public function getUploadUrlHash(): FileUrlRet
 | isSuccess() | bool | 是否成功 |
 | getError() | mixed | 获取错误信息 |
 
-### queryByHash
+### getUploadedFileUrlByHash
 
 ```php
-public function queryByHash(string $hash): FileHashRet
+public function getUploadedFileUrlByHash(string $hash): FileHashRet
 ```
 
 通过文件 MD5 哈希查询完整文件信息。
@@ -152,12 +152,12 @@ if ($ret->isSuccess()) {
 $file = new File('your-oss-token');
 
 // 1. 获取 Hash 上传地址
-$urlRet = $file->getUploadUrlHash();
+$urlRet = $file->getUploadHashUrl();
 echo $urlRet->upload_url; // https://upload.tuuz.cc:433/v2/file/index/uphash
 
 // 2. 客户端上传后获得 MD5 哈希
 // 3. 通过哈希查询完整文件信息
-$hashRet = $file->queryByHash('abc123def456...');
+$hashRet = $file->getUploadedFileUrlByHash('abc123def456...');
 if ($hashRet->isSuccess()) {
     echo $hashRet->url;  // 完整文件 URL
     echo $hashRet->size; // 文件大小
