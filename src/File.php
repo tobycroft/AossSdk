@@ -2,7 +2,7 @@
 
 namespace Tobycroft\AossSdk;
 
-class FileToken
+class File
 {
     private string $remote_url = 'https://upload.tuuz.cc:444';
     private string $appid;
@@ -17,7 +17,7 @@ class FileToken
         }
     }
 
-    public function getUploadToken(): FileTokenRet
+    public function getUploadToken(): FileRet
     {
         $timestamp = (string)time();
         $sign = md5($this->appid . $this->token . $timestamp);
@@ -29,11 +29,11 @@ class FileToken
         ];
 
         $response = Aoss::raw_post($this->remote_url . '/v2/file/token/create', $postData);
-        return new FileTokenRet($response);
+        return new FileRet($response);
     }
 }
 
-class FileTokenRet
+class FileRet
 {
     public mixed $error = null;
     public string $token = '';
