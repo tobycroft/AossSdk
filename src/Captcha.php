@@ -117,6 +117,24 @@ class Captcha extends Aoss
         return $this->getGifImage("/gif/number_fast", $ident);
     }
 
+    /**
+     * 动态 GIF 纯字母验证码（1秒一帧）
+     * 返回 GIF 二进制字符串
+     */
+    public function gif_letters($ident): string|false
+    {
+        return $this->getGifImage("/gif/letters", $ident);
+    }
+
+    /**
+     * 动态 GIF 纯字母验证码（0.5秒一帧）
+     * 返回 GIF 二进制字符串
+     */
+    public function gif_letters_fast($ident): string|false
+    {
+        return $this->getGifImage("/gif/letters_fast", $ident);
+    }
+
     private function getStaticImage($path, $ident): GdImage|false
     {
         $response = self::raw_post(
