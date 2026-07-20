@@ -167,4 +167,36 @@ class Captcha extends Aoss
         }
         return false;
     }
+
+    /**
+     * 滑动拼图验证码
+     * 返回包含 bg, block, y, bg_width, bg_height, block_size 的数组
+     */
+    public function slide($ident): array|false
+    {
+        $response = self::raw_post(
+            $this->send_url . $this->send_path . "/slide/create" . $this->send_token . $this->token,
+            ['ident' => $ident]
+        );
+        $json = json_decode($response, true);
+        if (!empty($json) && isset($json["code"]) && $json["code"] == "0") {
+            return $json["data"];
+        }
+        return false;
+    }
+
+    /**
+     * 验证滑动拼图验证码
+     */
+    public function slide_check($ident, $x): CaptchaRet
+    {
+        $ret = self::raw_post(
+            $this->send_url . $this->send_path . "/slide/check" . $this->send_token . $this->token,
+            [
+                'ident' => $ident,
+                'x' => $x,
+            ]
+        );
+        return new CaptchaRet($ret);
+    }
 }
