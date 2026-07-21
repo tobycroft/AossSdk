@@ -199,4 +199,37 @@ class Captcha extends Aoss
         );
         return new CaptchaRet($ret);
     }
+
+    /**
+     * 点击验证码
+     * 返回包含 bg, tip, targets_count, bg_width, bg_height 的数组
+     */
+    public function click($ident): array|false
+    {
+        $response = self::raw_post(
+            $this->send_url . $this->send_path . "/click/create" . $this->send_token . $this->token,
+            ['ident' => $ident]
+        );
+        $json = json_decode($response, true);
+        if (!empty($json) && isset($json["code"]) && $json["code"] == "0") {
+            return $json["data"];
+        }
+        return false;
+    }
+
+    /**
+     * 验证点击验证码
+     * clicks 为前端用户点击坐标数组，格式: [{"x":100,"y":80}, {"x":200,"y":120}]
+     */
+    public function click_check($ident, array $clicks): CaptchaRet
+    {
+        $ret = self::raw_post(
+            $this->send_url . $this->send_path . "/click/check" . $this->send_token . $this->token,
+            [
+                'ident' => $ident,
+                'clicks' => json_encode($clicks),
+            ]
+        );
+        return new CaptchaRet($ret);
+    }
 }
