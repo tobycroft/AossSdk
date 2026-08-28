@@ -6,6 +6,7 @@ class File
 {
     private string $remote_url = 'https://upload.tuuz.cc:444';
     private string $token;
+    private string $ip = '';
 
     public function __construct(string $token, string $remote_url = '')
     {
@@ -21,6 +22,12 @@ class File
         return $this;
     }
 
+    public function setIp(string $ip): self
+    {
+        $this->ip = $ip;
+        return $this;
+    }
+
     public function getUploadToken(): FileRet
     {
         $timestamp = (string)time();
@@ -31,6 +38,9 @@ class File
             'timestamp' => $timestamp,
             'sign' => $sign,
         ];
+        if (!empty($this->ip)) {
+            $postData['ip'] = $this->ip;
+        }
 
         $response = Aoss::raw_post($this->remote_url . '/v2/file/token/create', $postData);
         return new FileRet($response);
@@ -46,6 +56,9 @@ class File
             'timestamp' => $timestamp,
             'sign' => $sign,
         ];
+        if (!empty($this->ip)) {
+            $postData['ip'] = $this->ip;
+        }
 
         $response = Aoss::raw_post($this->remote_url . '/v2/file/token/upload_url', $postData);
         return new FileUrlRet($response);
@@ -61,6 +74,9 @@ class File
             'timestamp' => $timestamp,
             'sign' => $sign,
         ];
+        if (!empty($this->ip)) {
+            $postData['ip'] = $this->ip;
+        }
 
         $response = Aoss::raw_post($this->remote_url . '/v2/file/token/upload_url_hash', $postData);
         return new FileUrlRet($response);
