@@ -6,7 +6,7 @@ use CURLFile;
 
 class Aoss
 {
-    public string $remote_url = 'https://upload.tuuz.cc:4444';
+    public string $remote_url = 'https://upload.tuuz.cc:433';
     protected string $send_url;
     protected string $send_path = "/v1/file/index";
     protected string $send_token = "?token=";
