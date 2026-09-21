@@ -177,5 +177,5 @@ if ($ret->isSuccess()) {
 ## 自定义地址
 
 ```php
-$aoss = new Aoss('your-open-token', 'complete', 'https://custom.example.com:444');
+$aoss = new Aoss('your-open-token', 'complete', 'https://custom.example.com:433');
 ```

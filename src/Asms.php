@@ -5,7 +5,7 @@ namespace Tobycroft\AossSdk;
 
 class Asms extends Aoss
 {
-    protected string $remote_url = 'https://upload.familyeducation.org.cn:444';
+    protected string $remote_url = 'https://upload.familyeducation.org.cn:433';
     protected string $send_path = '/v1/sms/single/push';
     protected string $send_url;
     protected string $name;

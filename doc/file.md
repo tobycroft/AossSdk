@@ -25,7 +25,7 @@ public function __construct(string $token, string $remote_url = '')
 | 参数 | 类型 | 说明 |
 |------|------|------|
 | token | string | OSS Token（后端密钥，不可暴露给前端） |
-| remote_url | string | 可选，自定义远程地址，默认 `https://upload.tuuz.cc:444` |
+| remote_url | string | 可选，自定义远程地址，默认 `https://upload.tuuz.cc:433` |
 
 ## 方法
 
@@ -177,11 +177,11 @@ if ($hashRet->isSuccess()) {
 
 ```php
 // 方式一：构造函数传入
-$file = new File('your-oss-token', 'https://custom.example.com:444');
+$file = new File('your-oss-token', 'https://custom.example.com:433');
 
 // 方式二：链式调用
 $file = (new File('your-oss-token'))
-    ->setRemoteUrl('https://custom.example.com:444');
+    ->setRemoteUrl('https://custom.example.com:433');
 
 $ret = $file->getUploadToken();
 ```

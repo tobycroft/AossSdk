@@ -4,7 +4,7 @@ namespace Tobycroft\AossSdk;
 
 class File
 {
-    private string $remote_url = 'https://upload.tuuz.cc:444';
+    private string $remote_url = 'https://upload.tuuz.cc:433';
     private string $token;
     private string $ip = '';
 
