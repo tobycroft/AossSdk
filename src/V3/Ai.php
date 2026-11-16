@@ -12,22 +12,20 @@ namespace Tobycroft\AossSdk\V3;
  * 结构化字段（messages/tools/input/thinking/image 等）按服务端约定以
  * JSON 字符串提交；响应统一为 {code,data,echo}，code=0 时 data 为上游原样响应。
  */
-class Ai
+class Ai extends \Tobycroft\AossSdk\Aoss
 {
-    private const DEFAULT_BASE_URL = 'https://upload.tuuz.cc:433';
-
     /** 服务端签发的 64 位十六进制凭证，同时作为信封密钥 */
     protected string $secret;
     protected string $baseUrl;
 
     /**
      * @param string $secret 由 AOSSTP8 后台签发，请通过配置注入，勿硬编码
-     * @param string $baseUrl AOSSTP8 站点根地址，空则取默认值
+     * @param string $baseUrl V3 开放接口域名根；留空则复用 SDK 公用地址 Aoss::$remote_url
      */
     public function __construct(string $secret, string $baseUrl = '')
     {
         $this->secret = $secret;
-        $this->baseUrl = rtrim($baseUrl !== '' ? $baseUrl : self::DEFAULT_BASE_URL, '/');
+        $this->baseUrl = rtrim($baseUrl !== '' ? $baseUrl : $this->remote_url, '/');
     }
 
     /**
