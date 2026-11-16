@@ -14,7 +14,7 @@ namespace Tobycroft\AossSdk\V3;
  */
 class Ai
 {
-    private const DEFAULT_BASE_URL = 'https://aoss.tuuz.cc';
+    private const DEFAULT_BASE_URL = 'https://upload.tuuz.cc:433';
 
     /** 服务端签发的 64 位十六进制凭证，同时作为信封密钥 */
     protected string $secret;
