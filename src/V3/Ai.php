@@ -106,7 +106,6 @@ class Ai extends \Tobycroft\AossSdk\Aoss
         curl_setopt($ch, CURLOPT_TIMEOUT, 120);
         $response = curl_exec($ch);
         $error = curl_error($ch);
-        curl_close($ch);
         if ($response === false) {
             throw new \RuntimeException('V3 请求失败: ' . $error);
         }
