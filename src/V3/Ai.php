@@ -9,7 +9,7 @@ namespace Tobycroft\AossSdk\V3;
  * X-Aoss-Ts / X-Aoss-Kid / X-Aoss-Auth，不使用 V1/V2 的 ?token= 明文方式。
  * 服务端虽兼容表单/查询串传参，本客户端只用新版请求头方式。
  *
- * 结构化字段（messages/tools/input/thinking/image 等）按服务端约定以
+ * 结构化字段（messages/tools/input/thinking 等）按服务端约定以
  * JSON 字符串提交；响应统一为 {code,data,echo}，code=0 时 data 为上游原样响应。
  */
 class Ai extends \Tobycroft\AossSdk\Aoss
@@ -70,20 +70,6 @@ class Ai extends \Tobycroft\AossSdk\Aoss
         self::copyOptions($post, $options, ['model', 'system', 'temperature', 'max_tokens', 'top_p', 'stream']);
         self::copyJsonOptions($post, $options, ['thinking', 'chat_template_kwargs']);
         return new AiRet($this->call('/v3/ai/messages/index', $post));
-    }
-
-    /**
-     * 图片生成 POST /v3/ai/images/generations
-     *
-     * options 支持 model/ratio/return_base64/response_format/image/extra_body。
-     * 图片默认模型为 agnes-image-2.5-flash，与对话模型相互独立。
-     */
-    public function imageGenerations(string $prompt, string $size, array $options = []): AiRet
-    {
-        $post = ['prompt' => $prompt, 'size' => $size];
-        self::copyOptions($post, $options, ['model', 'ratio', 'return_base64', 'response_format']);
-        self::copyJsonOptions($post, $options, ['image', 'extra_body']);
-        return new AiRet($this->call('/v3/ai/images/generations', $post));
     }
 
     /** 发起表单请求，返回原始响应字符串；网络错误抛异常 */
