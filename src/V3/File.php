@@ -18,8 +18,9 @@ use Tobycroft\AossSdk\FileUrlRet;
  *   - delete / restore          软删（移入 upload/recycle/YYYYMMDD/）与恢复
  *
  * 鉴权改为 V3 凭证信封（见 Envelope），请求头 X-Aoss-Ts / X-Aoss-Kid / X-Aoss-Auth，
- * secret 永不明文传输。项目须在 AOSSTP8 后台「项目管理 v3」绑定一个 ao_oss 存储项目
- * （oss_token），未绑定时签发接口返回未配置。
+ * secret 永不明文传输。存储由后台「存储管理 V3 → 存储项目」授权的 Bucket 决定：
+ *   - 不传 bucket：使用该项目设定的默认 Bucket（兼容旧版调用）；
+ *   - 传 bucket：必须是该项目已授权的 Bucket（按 Bucket 名称），否则签发接口返回 403。
  *
  * 前端直传阶段沿用一次性 token（upload_url），与 V2 行为一致——直传请求无法携带
  * 自定义鉴权头，也不能把 secret 交给前端；信封鉴权发生在签发 token 的环节。
@@ -42,26 +43,42 @@ class File extends Aoss
         $this->baseUrl = rtrim($baseUrl !== '' ? $baseUrl : $this->remote_url, '/');
     }
 
-    /** 换取一次性上传 token POST /v3/file/token/create */
-    public function getUploadToken(): FileRet
+    /**
+     * 换取一次性上传 token POST /v3/file/token/create
+     * @param string $bucket 可选，目标 Bucket 名称；留空用后台设定的默认 Bucket
+     */
+    public function getUploadToken(string $bucket = ''): FileRet
     {
-        return new FileRet($this->call('/v3/file/token/create', []));
+        return new FileRet($this->call('/v3/file/token/create', $this->bucketPost($bucket)));
     }
 
     /**
      * 换取一次性 token + 完整上传地址 POST /v3/file/token/upload_url
      * @param string $ip 可选，上传来源 IP（写入 ao_attachment_token.ip）
+     * @param string $bucket 可选，目标 Bucket 名称；留空用后台设定的默认 Bucket
      */
-    public function getUploadUrl(string $ip = ''): FileUrlRet
+    public function getUploadUrl(string $ip = '', string $bucket = ''): FileUrlRet
     {
-        $post = $ip !== '' ? ['ip' => $ip] : [];
+        $post = $this->bucketPost($bucket);
+        if ($ip !== '') {
+            $post['ip'] = $ip;
+        }
         return new FileUrlRet($this->call('/v3/file/token/upload_url', $post));
     }
 
-    /** 换取 hash 模式上传地址 POST /v3/file/token/upload_url_hash */
-    public function getUploadHashUrl(): FileUrlRet
+    /**
+     * 换取 hash 模式上传地址 POST /v3/file/token/upload_url_hash
+     * @param string $bucket 可选，目标 Bucket 名称；留空用后台设定的默认 Bucket
+     */
+    public function getUploadHashUrl(string $bucket = ''): FileUrlRet
     {
-        return new FileUrlRet($this->call('/v3/file/token/upload_url_hash', []));
+        return new FileUrlRet($this->call('/v3/file/token/upload_url_hash', $this->bucketPost($bucket)));
+    }
+
+    /** 老调用不传 bucket 时不带该字段，服务端自动回退默认 Bucket */
+    private function bucketPost(string $bucket): array
+    {
+        return $bucket !== '' ? ['bucket' => $bucket] : [];
     }
 
     /** 按 md5/hash 查询文件完整信息 POST /v3/file/token/hash_query */
