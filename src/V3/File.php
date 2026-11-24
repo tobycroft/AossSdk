@@ -15,6 +15,7 @@ use Tobycroft\AossSdk\FileUrlRet;
  *   - getUploadUrl             换取一次性 token + 完整上传地址
  *   - getUploadHashUrl         换取 hash 模式上传地址（上传后仅返回 md5）
  *   - getUploadedFileUrlByHash 按 md5 查询文件完整信息
+ *   - delete / restore          软删（移入 upload/recycle/YYYYMMDD/）与恢复
  *
  * 鉴权改为 V3 凭证信封（见 Envelope），请求头 X-Aoss-Ts / X-Aoss-Kid / X-Aoss-Auth，
  * secret 永不明文传输。项目须在 AOSSTP8 后台「项目管理 v3」绑定一个 ao_oss 存储项目
@@ -67,6 +68,18 @@ class File extends Aoss
     public function getUploadedFileUrlByHash(string $hash): FileHashRet
     {
         return new FileHashRet($this->call('/v3/file/token/hash_query', ['hash' => $hash]));
+    }
+
+    /** 软删：把文件移入服务端 upload/recycle/YYYYMMDD/ POST /v3/file/token/delete */
+    public function delete(string $hash): FileActionRet
+    {
+        return new FileActionRet($this->call('/v3/file/token/delete', ['hash' => $hash]));
+    }
+
+    /** 恢复：从回收站移回原路径 POST /v3/file/token/restore */
+    public function restore(string $hash): FileActionRet
+    {
+        return new FileActionRet($this->call('/v3/file/token/restore', ['hash' => $hash]));
     }
 
     /** 发起表单请求，返回原始响应字符串；网络错误抛异常 */
