@@ -14,7 +14,9 @@ use Tobycroft\AossSdk\FileUrlRet;
  *   - getUploadToken           换取一次性上传 token
  *   - getUploadUrl             换取一次性 token + 完整上传地址
  *   - getUploadHashUrl         换取 hash 模式上传地址（上传后仅返回 md5）
- *   - getUploadedFileUrlByHash 按 md5 查询文件完整信息
+ *   - checkMd5                 秒传前置：按 md5 查系统内是否已有文件（跨项目）
+ *   - prepareUpload/prepareUploadByMd5 命中直接返回 path，未命中返回标准上传地址
+ *   - getUploadedFileUrlByHash 按 md5 查询文件完整信息（当前 Bucket 分组）
  *   - delete / restore          软删（移入 upload/recycle/YYYYMMDD/）与恢复
  *
  * 鉴权改为 V3 凭证信封（见 Envelope），请求头 X-Aoss-Ts / X-Aoss-Kid / X-Aoss-Auth，
@@ -79,6 +81,67 @@ class File extends Aoss
     private function bucketPost(string $bucket): array
     {
         return $bucket !== '' ? ['bucket' => $bucket] : [];
+    }
+
+    /**
+     * 秒传前置查询：md5 是否已存在于系统（跨项目）POST /v3/file/token/md5_check
+     *
+     * 未命中返回 exists=false（不抛错），可直接用于流程分支。
+     */
+    public function checkMd5(string $md5): FileCheckRet
+    {
+        $md5 = strtolower(trim($md5));
+        if ($md5 === '') {
+            return FileCheckRet::fromError('需要md5字段');
+        }
+        return new FileCheckRet($this->call('/v3/file/token/md5_check', ['md5' => $md5]));
+    }
+
+    /**
+     * 上传准备（已算好 md5）：命中直接给 path，未命中自动申请上传 token。
+     *
+     * @param string $md5 32 位 md5
+     * @param string $ip 可选上传来源 IP
+     * @param string $bucket 可选目标 Bucket，留空走服务端默认 Bucket
+     */
+    public function prepareUploadByMd5(string $md5, string $ip = '', string $bucket = ''): UploadPrepareRet
+    {
+        $md5 = strtolower(trim($md5));
+        if ($md5 === '') {
+            return UploadPrepareRet::fromError('需要md5字段');
+        }
+        $check = $this->checkMd5($md5);
+        if (!$check->isSuccess()) {
+            return UploadPrepareRet::fromError($check->getError(), $md5);
+        }
+        if ($check->exists) {
+            return UploadPrepareRet::fromCheck($check, $md5);
+        }
+        $url = $this->getUploadUrl($ip, $bucket);
+        if (!$url->isSuccess()) {
+            return UploadPrepareRet::fromError($url->getError(), $md5);
+        }
+        return UploadPrepareRet::fromUrl($url, $md5);
+    }
+
+    /**
+     * 上传准备（本地文件）：先算 md5 再查系统，命中秒传，未命中返回标准上传地址。
+     *
+     * 用法：
+     *   $ret = $file->prepareUpload('/path/to/a.jpg', '', 'images');
+     *   if ($ret->isSuccess() && $ret->hit) { echo $ret->url; }        // 秒传
+     *   elseif ($ret->needUpload()) { ... POST $ret->upload_url ... } // 标准上传
+     */
+    public function prepareUpload(string $filePath, string $ip = '', string $bucket = ''): UploadPrepareRet
+    {
+        if (!is_file($filePath) || !is_readable($filePath)) {
+            return UploadPrepareRet::fromError('文件不存在或不可读: ' . $filePath);
+        }
+        $md5 = md5_file($filePath);
+        if ($md5 === false) {
+            return UploadPrepareRet::fromError('无法计算文件 MD5: ' . $filePath);
+        }
+        return $this->prepareUploadByMd5($md5, $ip, $bucket);
     }
 
     /** 按 md5/hash 查询文件完整信息 POST /v3/file/token/hash_query */
