@@ -17,7 +17,11 @@ use Tobycroft\AossSdk\FileUrlRet;
  *   - checkMd5                 秒传前置：按 md5 查系统内是否已有文件（跨项目）
  *   - prepareUpload/prepareUploadByMd5 命中直接返回 path，未命中返回标准上传地址
  *   - getUploadedFileUrlByHash 按 md5 查询文件完整信息（当前 Bucket 分组）
+ *   - getTempUrl                按 md5/hash 签发客户端指定 ttl 的临时地址（v2.8.0+）
  *   - delete / restore          软删（移入 upload/recycle/YYYYMMDD/）与恢复
+ *
+ * 地址口径：url / file_url 均为 /attachment 或 /file 虚拟地址，不暴露真实落盘路径；
+ * hash 查询默认给 attachment 永久地址，传 ttl 或调 getTempUrl 时 file_url 为 file 临时地址。
  *
  * 鉴权改为 V3 凭证信封（见 Envelope），请求头 X-Aoss-Ts / X-Aoss-Kid / X-Aoss-Auth，
  * secret 永不明文传输。存储由后台「存储管理 V3 → 存储项目」授权的 Bucket 决定：
@@ -144,10 +148,34 @@ class File extends Aoss
         return $this->prepareUploadByMd5($md5, $ip, $bucket);
     }
 
-    /** 按 md5/hash 查询文件完整信息 POST /v3/file/token/hash_query */
-    public function getUploadedFileUrlByHash(string $hash): FileHashRet
+    /**
+     * 按 md5/hash 查询文件完整信息 POST /v3/file/token/hash_query
+     *
+     * @param int $ttl 可选，>0 时服务端把 file_url 改签为有效期 ttl 秒的 file 临时地址；
+     *                 0/留空时 file_url 为 attachment 永久地址。上限由服务端 max_ttl 约束。
+     */
+    public function getUploadedFileUrlByHash(string $hash, int $ttl = 0): FileHashRet
     {
-        return new FileHashRet($this->call('/v3/file/token/hash_query', ['hash' => $hash]));
+        $post = ['hash' => $hash];
+        if ($ttl > 0) {
+            $post['ttl'] = $ttl;
+        }
+        return new FileHashRet($this->call('/v3/file/token/hash_query', $post));
+    }
+
+    /**
+     * 按 md5/hash 签发临时地址 POST /v3/file/token/temp_url（AOSSTP8 v2.8.0+）
+     *
+     * @param string $hash 文件 md5/hash（也可为 ao_attachment.id）
+     * @param int $ttl 有效期秒数，1~服务端 max_ttl（默认 604800）；<=0 时不带该字段，用服务端默认值
+     */
+    public function getTempUrl(string $hash, int $ttl = 0): TempUrlRet
+    {
+        $post = ['hash' => $hash];
+        if ($ttl > 0) {
+            $post['ttl'] = $ttl;
+        }
+        return new TempUrlRet($this->call('/v3/file/token/temp_url', $post));
     }
 
     /** 软删：把文件移入服务端 upload/recycle/YYYYMMDD/ POST /v3/file/token/delete */

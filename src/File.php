@@ -185,6 +185,10 @@ class FileHashRet
     public float $duration = 0;
     public string $duration_str = '';
     public float $bitrate = 0;
+    /** V3 分发地址：默认与 url 同为 attachment 永久地址；带 ttl 查询时为 file 临时地址 */
+    public string $file_url = '';
+    /** V3 临时地址到期时间戳，永久地址为 0 */
+    public int $file_expired_at = 0;
 
     public function __construct($response)
     {
@@ -210,6 +214,8 @@ class FileHashRet
             $this->duration = $data['duration'] ?? 0;
             $this->duration_str = $data['duration_str'] ?? '';
             $this->bitrate = $data['bitrate'] ?? 0;
+            $this->file_url = (string)($data['file_url'] ?? '');
+            $this->file_expired_at = (int)($data['file_expired_at'] ?? 0);
         } else {
             $this->error = $json['echo'] ?? 'unknown error';
         }
