@@ -85,6 +85,7 @@ class Ai extends \Tobycroft\AossSdk\Aoss
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $this->baseUrl . $path);
+        self::apply_sni($ch, $this->baseUrl . $path);
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($post));

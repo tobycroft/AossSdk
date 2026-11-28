@@ -14,6 +14,88 @@ class Aoss
     protected string $mode;
 
     /**
+     * SNI 域名直连映射：域名 => 连接 IP。
+     *
+     * 请求 URL、Host 头与 TLS SNI/证书校验仍使用域名，仅通过 CURLOPT_RESOLVE
+     * 把实际连接地址替换为指定 IP，适用于内网访问公网域名的场景。
+     *
+     * @var array<string, string>
+     */
+    protected static array $sni_map = [];
+
+    /**
+     * 为指定域名配置连接 IP（可传内网 IP 或 127.0.0.1）。
+     * $domain 可带 scheme/端口，SDK 只取主机名；$ip 传空串表示移除该域名的配置。
+     */
+    public static function set_sni(string $domain, string $ip): void
+    {
+        $host = self::sni_host($domain);
+        if ($host === '') {
+            return;
+        }
+        if ($ip === '') {
+            unset(self::$sni_map[$host]);
+            return;
+        }
+        self::$sni_map[$host] = trim($ip);
+    }
+
+    /**
+     * 批量设置域名到 IP 的映射。
+     *
+     * @param array<string, string> $map
+     */
+    public static function set_snis(array $map): void
+    {
+        foreach ($map as $domain => $ip) {
+            self::set_sni((string)$domain, (string)$ip);
+        }
+    }
+
+    /** 清除全部 SNI 配置，恢复默认 DNS 解析。 */
+    public static function clear_sni(): void
+    {
+        self::$sni_map = [];
+    }
+
+    /** 从域名或 URL 中提取小写主机名。 */
+    protected static function sni_host(string $domain): string
+    {
+        $domain = trim($domain);
+        if ($domain === '') {
+            return '';
+        }
+        $url = str_contains($domain, '://') ? $domain : 'https://' . $domain;
+        $host = parse_url($url, PHP_URL_HOST);
+        if (!is_string($host) || $host === '') {
+            return '';
+        }
+        return strtolower(rtrim(trim($host, '[]'), '.'));
+    }
+
+    /** 给 cURL 句柄注入 SNI 解析覆盖（域名:端口:IP），域名不匹配时不做任何处理。 */
+    public static function apply_sni($ch, string $url): void
+    {
+        $host = parse_url($url, PHP_URL_HOST);
+        if (!is_string($host) || $host === '') {
+            return;
+        }
+        $key = strtolower(rtrim($host, '.'));
+        if (!isset(self::$sni_map[$key])) {
+            return;
+        }
+        $port = parse_url($url, PHP_URL_PORT);
+        if (!$port) {
+            $port = strtolower((string)parse_url($url, PHP_URL_SCHEME)) === 'http' ? 80 : 443;
+        }
+        $ip = self::$sni_map[$key];
+        if (str_contains($ip, ':')) {
+            $ip = '[' . trim($ip, '[]') . ']';
+        }
+        curl_setopt($ch, CURLOPT_RESOLVE, [$host . ':' . $port . ':' . $ip]);
+    }
+
+    /**
      * @discription 构建传入token,token可以发送邮件到aoss@tuuz.cc获取
      * @param $token
      * @param $mode
@@ -37,6 +119,7 @@ class Aoss
     {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $send_url);
+        self::apply_sni($ch, $send_url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
@@ -60,6 +143,7 @@ class Aoss
         ];
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $send_url);
+        self::apply_sni($ch, $send_url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
@@ -130,6 +214,7 @@ class Aoss
         ];
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $send_url);
+        self::apply_sni($ch, $send_url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);

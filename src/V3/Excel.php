@@ -73,6 +73,7 @@ class Excel extends \Tobycroft\AossSdk\Aoss
         $ts = time();
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
+        self::apply_sni($ch, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
@@ -94,6 +95,7 @@ class Excel extends \Tobycroft\AossSdk\Aoss
         ];
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
+        self::apply_sni($ch, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
