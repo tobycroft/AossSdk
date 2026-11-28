@@ -14,34 +14,41 @@ class Aoss
     protected string $mode;
 
     /**
-     * SNI 域名直连映射：域名 => 连接 IP。
+     * SNI 域名直连映射：域名 => ['ip' => 连接 IP, 'port' => 连接端口|null]。
      *
-     * 请求 URL、Host 头与 TLS SNI/证书校验仍使用域名，仅通过 CURLOPT_RESOLVE
-     * 把实际连接地址替换为指定 IP，适用于内网访问公网域名的场景。
+     * 请求 URL、Host 头与 TLS SNI/证书校验仍使用域名，仅把实际连接地址替换为
+     * 指定 IP（可选指定内网端口），适用于内网访问公网域名的场景。
      *
-     * @var array<string, string>
+     * @var array<string, array{ip: string, port: int|null}>
      */
     protected static array $sni_map = [];
 
     /**
      * 为指定域名配置连接 IP（可传内网 IP 或 127.0.0.1）。
      * $domain 可带 scheme/端口，SDK 只取主机名；$ip 传空串表示移除该域名的配置。
+     * $port 为可选的实际连接端口：内网端口与外网不一样时传入，留空沿用 URL 中的端口。
      */
-    public static function set_sni(string $domain, string $ip): void
+    public static function set_sni(string $domain, string $ip, ?int $port = null): void
     {
         $host = self::sni_host($domain);
         if ($host === '') {
             return;
         }
-        if ($ip === '') {
+        if (trim($ip) === '') {
             unset(self::$sni_map[$host]);
             return;
         }
-        self::$sni_map[$host] = trim($ip);
+        $target = self::sni_target($ip, $port);
+        if ($target['ip'] === '') {
+            unset(self::$sni_map[$host]);
+            return;
+        }
+        self::$sni_map[$host] = $target;
     }
 
     /**
      * 批量设置域名到 IP 的映射。
+     * 值支持 "IP" 或 "IP:端口"；需要显式端口时也可用 set_sni()。
      *
      * @param array<string, string> $map
      */
@@ -73,7 +80,28 @@ class Aoss
         return strtolower(rtrim(trim($host, '[]'), '.'));
     }
 
-    /** 给 cURL 句柄注入 SNI 解析覆盖（域名:端口:IP），域名不匹配时不做任何处理。 */
+    /**
+     * 解析连接目标：优先使用显式端口，其次识别 "IP:端口" 写法。
+     *
+     * @return array{ip: string, port: int|null}
+     */
+    protected static function sni_target(string $ip, ?int $port = null): array
+    {
+        $ip = trim($ip);
+        if ($port === null && preg_match('/^\[([^\]]+)\]:(\d+)$/', $ip, $m)) {
+            $ip = $m[1];
+            $port = (int)$m[2];
+        } elseif ($port === null && preg_match('/^([^:]+):(\d+)$/', $ip, $m)) {
+            $ip = $m[1];
+            $port = (int)$m[2];
+        }
+        return [
+            'ip' => trim($ip, '[]'),
+            'port' => $port !== null && $port > 0 ? $port : null,
+        ];
+    }
+
+    /** 给 cURL 句柄注入连接地址覆盖，域名不匹配时不做任何处理。 */
     public static function apply_sni($ch, string $url): void
     {
         $host = parse_url($url, PHP_URL_HOST);
@@ -88,11 +116,15 @@ class Aoss
         if (!$port) {
             $port = strtolower((string)parse_url($url, PHP_URL_SCHEME)) === 'http' ? 80 : 443;
         }
-        $ip = self::$sni_map[$key];
-        if (str_contains($ip, ':')) {
-            $ip = '[' . trim($ip, '[]') . ']';
+        $target = self::$sni_map[$key];
+        $ip = str_contains($target['ip'], ':') ? '[' . trim($target['ip'], '[]') . ']' : $target['ip'];
+        if ($target['port'] === null || $target['port'] === (int)$port) {
+            // 端口不变：仅替换解析地址，Host/SNI 保持域名。
+            curl_setopt($ch, CURLOPT_RESOLVE, [$host . ':' . $port . ':' . $ip]);
+            return;
         }
-        curl_setopt($ch, CURLOPT_RESOLVE, [$host . ':' . $port . ':' . $ip]);
+        // 端口不同：用 CONNECT_TO 替换连接目标，Host/SNI 仍使用原域名与原端口。
+        curl_setopt($ch, CURLOPT_CONNECT_TO, [$host . ':' . $port . ':' . $ip . ':' . $target['port']]);
     }
 
     /**

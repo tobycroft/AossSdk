@@ -185,7 +185,7 @@ $aoss = new Aoss('your-open-token', 'complete', 'https://custom.example.com:433'
 内网环境访问 AOSSTP8 时，域名解析可能仍指向公网。通过 `set_sni` 可以保持域名不变，只把连接地址指向内网 IP：
 
 - 请求 URL、Host 头、TLS SNI 与证书校验仍使用原域名；
-- 底层通过 `CURLOPT_RESOLVE` 替换连接地址，不会放宽证书校验；
+- 端口一致时通过 `CURLOPT_RESOLVE` 替换解析地址；内网端口不同时通过 `CURLOPT_CONNECT_TO` 替换连接目标，均不会放宽证书校验；
 - 域名可带 scheme/端口，SDK 只取主机名；对全部基于 `Aoss` 的客户端（含 `V3\*`）生效。
 
 ```php
@@ -194,10 +194,15 @@ use Tobycroft\AossSdk\Aoss;
 // 初始化阶段调用即可
 Aoss::set_sni('upload.tuuz.cc', '10.0.0.8');
 
-// 批量设置
+// 内网端口与外网端口不一致时，额外指定实际连接端口
+// URL 仍为 upload.tuuz.cc:433，实际连接到 10.0.0.8:8443
+Aoss::set_sni('upload.tuuz.cc', '10.0.0.8', 8443);
+
+// 批量设置（值支持 "IP" 或 "IP:端口"）
 Aoss::set_snis([
     'upload.tuuz.cc'   => '10.0.0.8',
     'aoss.example.com' => '127.0.0.1',
+    'port.example.com' => '10.0.0.9:8443',
 ]);
 
 // 移除单个域名（IP 传空串）
@@ -209,7 +214,7 @@ Aoss::clear_sni();
 
 | 方法 | 说明 |
 |------|------|
-| `set_sni(string $domain, string $ip): void` | 为域名设置连接 IP，`$ip` 为空时移除该域名 |
-| `set_snis(array $map): void` | 批量设置域名到 IP 的映射 |
+| `set_sni(string $domain, string $ip, ?int $port = null): void` | 为域名设置连接 IP，可选指定实际连接端口；`$ip` 为空时移除该域名 |
+| `set_snis(array $map): void` | 批量设置，值支持 `IP` 或 `IP:端口` |
 | `clear_sni(): void` | 清除全部配置，恢复默认 DNS 解析 |
 | `apply_sni($ch, string $url): void` | 给自定义 cURL 句柄注入 SNI 覆盖（可选） |
